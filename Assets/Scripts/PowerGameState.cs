@@ -34,11 +34,11 @@ public class PowerGameState : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"Power String: {PowString}");
+        /*Debug.Log($"Power String: {PowString}");
         foreach (var bullet in PowData)
         {
             Debug.Log(bullet);
-        }
+        }*/
     }
 
     private void Update()

@@ -22,7 +22,6 @@ public class PowGun : MonoBehaviour
         {
             StartCoroutine(FireBullets());
         }
-        bullets = PowerGameState.Instance.PowData;
     }
 
     private IEnumerator FireBullets()
@@ -38,7 +37,8 @@ public class PowGun : MonoBehaviour
             yield return new WaitForSeconds(GunStats.TimeToFireMag / bullets.Count);
         }
 
-        isShooting = false; 
+        isShooting = false;
+        bullets = PowerGameState.Instance.PowData;
     }
 
     private void FireBullet(PowData powData)
