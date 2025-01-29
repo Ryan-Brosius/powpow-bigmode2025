@@ -22,14 +22,21 @@ public class PowWordUIManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        currentPow = GetCurrentPowString();
+        PowerGameState.Instance.PowString = currentPow;
+    }
+
     public void OnChange()
     {
         currentPow = GetCurrentPowString();
+        PowerGameState.Instance.PowString = currentPow;
     }
 
     string GetCurrentPowString()
     {
-        return currentPow = string.Join("", dropZones.Select(zone => zone.currentLetter ? zone.currentLetter.name : ""));
+        return currentPow = string.Join("", dropZones.Select(zone => zone.currentLetter ? zone.currentLetter.GetComponent<DraggableLetter>().LetterValue.ToString() : ""));
     }
 
     public DropZone GetDropZone(GameObject letter)
