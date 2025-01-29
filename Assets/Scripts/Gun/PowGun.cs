@@ -45,12 +45,13 @@ public class PowGun : MonoBehaviour
     {
         GameObject bullet = Instantiate(GunStats.BulletPrefab, firePoint.position, firePoint.rotation);
 
-        bullet.transform.localScale = new Vector3(bullet.transform.localScale.x * powData.BulletSize, bullet.transform.localScale.y * powData.BulletSize, 1);
+        //bullet.transform.localScale = new Vector3(bullet.transform.localScale.x * powData.BulletSize, bullet.transform.localScale.y * powData.BulletSize, 1);
 
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         if (bulletScript != null)
         {
             bulletScript.Damage = powData.BulletDamage;
+            bulletScript.Pierce = powData.BulletPierce;
         }
 
         ApplyShotgunSpread(bullet, powData.BulletsPerShot);

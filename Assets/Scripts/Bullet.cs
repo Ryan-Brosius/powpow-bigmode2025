@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] float speed = 10f;
     [SerializeField] float timeUntilDeath = 5f;
     public int Damage { get; set; }
+    public int Pierce { get; set; }
 
     private void Awake()
     {
@@ -18,10 +19,20 @@ public class Bullet : MonoBehaviour
         transform.Translate(Vector3.right * Time.fixedDeltaTime * speed);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Destroy(gameObject);
+        IDamageable damageable = other.GetComponent<IDamageable>();
+        if (damageable != null && !other.gameObject.CompareTag("Player"))
+        {
+            damageable.TakeDamage(Damage);
+        }
+
+        if (--Pierce == 0)
+        {
+            Destroy(gameObject);
+        }
     }
+
 
     IEnumerator DeathTimer(float time)
     {
