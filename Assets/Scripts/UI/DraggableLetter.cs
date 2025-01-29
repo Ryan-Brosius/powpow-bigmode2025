@@ -7,6 +7,13 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private CanvasGroup canvasGroup;
     private Vector3 originalPosition;
     public DropZone originalDropZone;
+    [SerializeField] char letterValue;
+
+    public char LetterValue
+    {
+        get { return letterValue; }
+        private set {}
+    }
 
     void Awake()
     {
@@ -42,6 +49,8 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
+
+        PowWordUIManager.Instance.OnChange();
     }
 
     public void OnDrop(PointerEventData eventData)
