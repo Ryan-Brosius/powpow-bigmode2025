@@ -11,7 +11,8 @@ public class EnemyBase : MonoBehaviour
     protected virtual void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        StartCoroutine(Attack());
+
+        if (enemyAttack != null) StartCoroutine(Attack());
     }
 
     protected virtual void Update()
@@ -23,12 +24,9 @@ public class EnemyBase : MonoBehaviour
     {
         while (true)
         {
-            if (enemyAttack != null)
-            {
-                yield return new WaitForSeconds(enemyAttack.fireRate);
+            yield return new WaitForSeconds(enemyAttack.fireRate + UnityEngine.Random.Range(0, enemyAttack.fireRateVariation));
 
-                enemyAttack.PerformAttack(transform, target);
-            }
+            enemyAttack.PerformAttack(transform, target);
         }
     }
 }

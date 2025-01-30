@@ -87,7 +87,6 @@ public class EnemyMovement : MonoBehaviour
     private void CheckAccelerating(float distance)
     {
         accelerating = distance <= retreatDistance || distance >= stoppingDistance;
-        Debug.Log(accelerating);
     }
 }
 

@@ -9,10 +9,11 @@ public class EnemyAttack : MonoBehaviour
     [Range(0.2f, 5f)] public float fireRate;
     [Range(1f, 20f)] public int bulletCount;
     [Range(0f, 360f)] public float spreadAngle;
+    [Tooltip("Slightly randomize shoot time")]
+    [Range(0f, 1f)] public float fireRateVariation = 0.1f;
 
     public void PerformAttack(Transform firePoint, Transform target)
     {
-
         Vector3 direction = target.position - firePoint.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 

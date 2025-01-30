@@ -26,11 +26,11 @@ public class Bullet : MonoBehaviour
         if (damageable != null && !other.gameObject.CompareTag(doNotCollideTag))
         {
             damageable.TakeDamage(Damage);
-        }
 
-        if (--Pierce == 0)
-        {
-            Destroy(gameObject);
+            if (--Pierce == 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

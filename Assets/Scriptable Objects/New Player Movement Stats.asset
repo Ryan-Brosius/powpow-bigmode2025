@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1746607c60778b479b29e39b9ae2568, type: 3}
   m_Name: New Player Movement Stats
   m_EditorClassIdentifier: 
-  maxWalkSpeed: 10
-  Acceleration: 5
+  MaxWalkSpeed: 7
+  Acceleration: 3
   Deceleration: 20
