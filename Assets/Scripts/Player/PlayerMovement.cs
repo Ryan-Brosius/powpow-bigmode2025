@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -16,6 +17,15 @@ public class PlayerMovement : MonoBehaviour
 
     private Controls playerControls;
 
+    private static PlayerMovement instance;
+    public static PlayerMovement Instance => instance;
+
+    [System.Serializable]
+    public class V2Event : UnityEvent<Vector2> { }
+    [SerializeField] private V2Event changeSpot = new V2Event();
+    public V2Event ChangeSpot => changeSpot;
+    Vector2Int cachedSpot;
+
     private void OnEnable()
     {
         playerControls.Enable();
@@ -30,6 +40,22 @@ public class PlayerMovement : MonoBehaviour
     {
         playerControls = new Controls();
         rb = GetComponent<Rigidbody2D>();
+        InitializeSingleton();
+    }
+
+    private void InitializeSingleton()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void FixedUpdate()
@@ -54,6 +80,13 @@ public class PlayerMovement : MonoBehaviour
         {
             moveVelocity = Vector2.Lerp(moveVelocity, Vector2.zero, deceleration * Time.fixedDeltaTime);
             rb.velocity = moveVelocity;
+        }
+
+        var currentPos = transform.position;
+        if (Vector2Int.RoundToInt((Vector2)currentPos) != cachedSpot)
+        {
+            cachedSpot = Vector2Int.RoundToInt((Vector2)currentPos);
+            changeSpot.Invoke((Vector2)currentPos);
         }
     }
 
