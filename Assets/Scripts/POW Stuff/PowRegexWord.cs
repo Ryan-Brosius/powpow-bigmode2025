@@ -57,7 +57,7 @@ public class PowRegexWord : ScriptableObject
 
             powDataList.Add(new PowData
             {
-                BulletSize = pCount,
+                BulletPierce = pCount,
                 BulletDamage = oCount,
                 BulletsPerShot = wCount
             });
