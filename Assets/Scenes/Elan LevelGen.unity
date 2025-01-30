@@ -245,6 +245,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1474732061}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &284348918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 284348920}
+  - component: {fileID: 284348919}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &284348919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284348918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 223c657703f59024c9aa77e6e50c220d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  compassSprites:
+  - {fileID: 313094275, guid: afabc9ed69e02d74eab02b60aa5f9339, type: 3}
+  - {fileID: -1382770186, guid: afabc9ed69e02d74eab02b60aa5f9339, type: 3}
+  - {fileID: 948724144, guid: afabc9ed69e02d74eab02b60aa5f9339, type: 3}
+  - {fileID: 1772378921, guid: afabc9ed69e02d74eab02b60aa5f9339, type: 3}
+  - {fileID: -1952050217, guid: afabc9ed69e02d74eab02b60aa5f9339, type: 3}
+  - {fileID: -1181379773, guid: afabc9ed69e02d74eab02b60aa5f9339, type: 3}
+  - {fileID: 1316847482, guid: afabc9ed69e02d74eab02b60aa5f9339, type: 3}
+  - {fileID: -1954972731, guid: afabc9ed69e02d74eab02b60aa5f9339, type: 3}
+--- !u!4 &284348920
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284348918}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &459510130
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +373,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 5549490551523996458, guid: 2e861910e468fe3498ef856e0693b797, type: 3}
+  OnOutpostsUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &743481602
 Transform:
   m_ObjectHideFlags: 0
@@ -618,3 +674,4 @@ SceneRoots:
   - {fileID: 459510132}
   - {fileID: 142284570}
   - {fileID: 1656823068}
+  - {fileID: 284348920}
