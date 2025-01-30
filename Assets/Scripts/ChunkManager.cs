@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using System.Collections.Generic;
 using UnityEditor;
 using Unity.VisualScripting.InputSystem;
+using System.Linq;
 
 public enum OutpostType
 {
@@ -84,7 +85,7 @@ public class ChunkManager : MonoBehaviour
         //int hash = (worldSeed + 31* chunkCoord.x + 31 * chunkCoord.y).GetHashCode();
         //return (OutpostType)((hash & 0x7fffffff) % 3);
 
-        return (OutpostType)random.Next(0,3);
+        return (OutpostType)random.Next(0, 3);
     }
 
     private void UpdateClosestOutposts(Vector2Int playerPosition)
@@ -185,66 +186,74 @@ public class ChunkManager : MonoBehaviour
         Vector2Int chunkWorldPos = chunkCoord * CHUNK_SIZE;
         chunkObject.transform.position = new Vector3(chunkWorldPos.x, chunkWorldPos.y, 0);
 
-        //
-
-
         bool shouldHaveBlocks = random.Next(0, 10) == 0;
-        var takenBlocks = new List<Vector2>();
+        var takenBlocks = new HashSet<Vector2Int>(); // Changed to HashSet for better performance
 
         if (shouldHaveBlocks)
         {
             OutpostType outpostType = DetermineOutpostType(chunkCoord);
             outpostTypes[chunkCoord] = outpostType;
 
+            // Define the grid size for hut placement
+            int gridSize = 4; // Dividing the chunk into a 4x4 grid for hut placement
+            var outPostGridTaken = new HashSet<Vector2Int>(); // Changed to HashSet
+            int outpostCount = random.Next(1, 4); // Reduced max count to prevent overcrowding
 
-            //because the huts are 2x2, we're doing multiples, and setting the hut in the center of the 4 squares
-            for (int x = 0; x < 2; x++)
+            for (int i = 0; i < outpostCount; i++)
             {
-                for (int y = 0; y < 2; y++)
+                // Generate grid position
+                int gridX = random.Next(0, gridSize);
+                int gridY = random.Next(0, gridSize);
+                var gridPos = new Vector2Int(gridX, gridY);
+
+                if (!outPostGridTaken.Contains(gridPos))
                 {
+                    // Each grid cell is 2x2 units (CHUNK_SIZE / gridSize)
+                    float cellSize = CHUNK_SIZE / (float)gridSize;
                     Vector3 localPos = new Vector3(
-                        x + (CHUNK_SIZE / 2f - 1),
-                        y + (CHUNK_SIZE / 2f - 1),
+                        gridX * cellSize + cellSize / 2,
+                        gridY * cellSize + cellSize / 2,
                         0
                     );
 
-                    ////if (random.Next(0, 2) == 0)
-                    ////{
-                    ////    GameObject floor = new GameObject();
-                    ////    floor.AddComponent<SpriteRenderer>().sprite = floorSprites[random.Next(0, floorSprites.Count)];
-                    ////    floor.transform.localPosition = localPos;
+                    GameObject hut = Instantiate(blockPrefab, chunkObject.transform);
+                    hut.transform.localPosition = localPos;
+                    hut.GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
+                    hut.GetComponent<SpriteRenderer>().sprite = outposts.Where(w => w.Type.Equals(outpostType)).ToList()[0].Sprite;
 
-                    ////    GameObject block = Instantiate(blockPrefab, chunkObject.transform);
-                    ////    block.transform.localPosition = localPos;
-                    ////    block.GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
-                    ////}
+                    outPostGridTaken.Add(gridPos);
 
-                    GameObject block = Instantiate(blockPrefab, chunkObject.transform);
-                    block.transform.localPosition = localPos;
-                    block.GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
-                    takenBlocks.Add(new Vector2(x, y));
+                    int blockX = Mathf.FloorToInt(localPos.x);
+                    int blockY = Mathf.FloorToInt(localPos.y);
+                    takenBlocks.Add(new Vector2Int(blockX, blockY));
+                    takenBlocks.Add(new Vector2Int(blockX + 1, blockY));
+                    takenBlocks.Add(new Vector2Int(blockX, blockY + 1));
+                    takenBlocks.Add(new Vector2Int(blockX + 1, blockY + 1));
                 }
             }
         }
 
-        //filling in the floor, when not taken
-        for (int i = 0; i < 2; i++)
+        int floorTileCount = random.Next(3, 6); 
+        for (int i = 0; i < floorTileCount; i++)
         {
-            Vector2 newPos = new(random.Next(0, 8), random.Next(0, 8));
-            if (!takenBlocks.Contains(newPos))
-            {
-                Vector3 localPos = new Vector3(
-                    newPos.x + (CHUNK_SIZE / 2f - 1),
-                    newPos.y + (CHUNK_SIZE / 2f - 1),
-                    0
-                );
+            int maxAttempts = 10; 
+            int attempts = 0;
 
-                GameObject floor = Instantiate(blockPrefab, chunkObject.transform);
-                floor.transform.localPosition = localPos;
-                floor.GetComponent<SpriteRenderer>().sprite = floorSprites[random.Next(0, floorSprites.Count)];
+            while (attempts < maxAttempts)
+            {
+                Vector2Int newPos = new(random.Next(0, CHUNK_SIZE), random.Next(0, CHUNK_SIZE));
+                if (!takenBlocks.Contains(newPos))
+                {
+                    Vector3 localPos = new Vector3(newPos.x, newPos.y, 0);
+
+                    GameObject floor = Instantiate(blockPrefab, chunkObject.transform);
+                    floor.transform.localPosition = localPos;
+                    floor.GetComponent<SpriteRenderer>().sprite = floorSprites[random.Next(0, floorSprites.Count)];
+                    takenBlocks.Add(newPos);
+                    break;
+                }
+                attempts++;
             }
-            else
-                i--;
         }
 
         activeChunks.Add(chunkCoord, chunkObject);
