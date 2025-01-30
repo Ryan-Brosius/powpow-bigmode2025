@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
 using UnityEditor;
+using Unity.VisualScripting.InputSystem;
 
 public enum OutpostType
 {
@@ -14,8 +15,11 @@ public class ChunkManager : MonoBehaviour
 {
     [SerializeField] private GameObject blockPrefab;
 
+    [SerializeField] private List<Sprite> floorSprites = new();
+    [SerializeField] private List<Outpost> outposts = new();
+
     public const int CHUNK_SIZE = 8;
-    private const int LOAD_DISTANCE = 300;
+    private const int LOAD_DISTANCE = 32;
 
     private Dictionary<Vector2Int, GameObject> activeChunks = new Dictionary<Vector2Int, GameObject>();
     private Dictionary<Vector2Int, OutpostType> outpostTypes = new Dictionary<Vector2Int, OutpostType>();
@@ -61,7 +65,8 @@ public class ChunkManager : MonoBehaviour
 
     private void Start()
     {
-        worldSeed = Random.Range(0,100);
+        //worldSeed = Random.Range(0,100);
+        worldSeed = 0;
         random = new System.Random(worldSeed);
 
         //chunkCoord.x * 73856093 + chunkCoord.y * 19349663
@@ -184,13 +189,15 @@ public class ChunkManager : MonoBehaviour
 
 
         bool shouldHaveBlocks = random.Next(0, 10) == 0;
-
+        var takenBlocks = new List<Vector2>();
 
         if (shouldHaveBlocks)
         {
             OutpostType outpostType = DetermineOutpostType(chunkCoord);
             outpostTypes[chunkCoord] = outpostType;
 
+
+            //because the huts are 2x2, we're doing multiples, and setting the hut in the center of the 4 squares
             for (int x = 0; x < 2; x++)
             {
                 for (int y = 0; y < 2; y++)
@@ -201,11 +208,43 @@ public class ChunkManager : MonoBehaviour
                         0
                     );
 
+                    ////if (random.Next(0, 2) == 0)
+                    ////{
+                    ////    GameObject floor = new GameObject();
+                    ////    floor.AddComponent<SpriteRenderer>().sprite = floorSprites[random.Next(0, floorSprites.Count)];
+                    ////    floor.transform.localPosition = localPos;
+
+                    ////    GameObject block = Instantiate(blockPrefab, chunkObject.transform);
+                    ////    block.transform.localPosition = localPos;
+                    ////    block.GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
+                    ////}
+
                     GameObject block = Instantiate(blockPrefab, chunkObject.transform);
                     block.transform.localPosition = localPos;
                     block.GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
+                    takenBlocks.Add(new Vector2(x, y));
                 }
             }
+        }
+
+        //filling in the floor, when not taken
+        for (int i = 0; i < 2; i++)
+        {
+            Vector2 newPos = new(random.Next(0, 8), random.Next(0, 8));
+            if (!takenBlocks.Contains(newPos))
+            {
+                Vector3 localPos = new Vector3(
+                    newPos.x + (CHUNK_SIZE / 2f - 1),
+                    newPos.y + (CHUNK_SIZE / 2f - 1),
+                    0
+                );
+
+                GameObject floor = Instantiate(blockPrefab, chunkObject.transform);
+                floor.transform.localPosition = localPos;
+                floor.GetComponent<SpriteRenderer>().sprite = floorSprites[random.Next(0, floorSprites.Count)];
+            }
+            else
+                i--;
         }
 
         activeChunks.Add(chunkCoord, chunkObject);
@@ -224,4 +263,11 @@ public class ChunkManager : MonoBehaviour
         }
         return Color.white;
     }
+}
+
+[System.Serializable]
+struct Outpost
+{
+    public OutpostType Type;
+    public Sprite Sprite;
 }

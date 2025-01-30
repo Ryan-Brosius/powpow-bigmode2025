@@ -122,6 +122,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7060092783152635644}
+  - component: {fileID: 4087077922232144212}
   m_Layer: 0
   m_Name: Camera Container
   m_TagString: Untagged
@@ -145,3 +146,15 @@ Transform:
   - {fileID: 4822994339155421715}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4087077922232144212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8534827495913197009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20673870dbbb39043bb1565ae7eed562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
