@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
@@ -24,12 +24,21 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalPosition = rectTransform.position;
+        /*
+        originalPosition = rectTransform.position;
         originalDropZone = PowWordUIManager.Instance.GetDropZone(gameObject);
+        if (originalDropZone != null)
+        {
+            originalDropZone.removeLetter(this.gameObject);
+
+            this.transform.SetParent(GameObject.Find("Canvas").transform);
+        }
 
         foreach (DropZone drop in PowWordUIManager.Instance.dropZones)
         {
             drop.removeLetter(gameObject);
         }
+        */
 
         canvasGroup.alpha = 0.6f;
         canvasGroup.blocksRaycasts = false;
@@ -45,6 +54,7 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         if (originalDropZone != null)
         {
             originalDropZone.ManualOnDrop(gameObject);
+            if (originalPosition != null) transform.position = originalPosition;
         }
 
         canvasGroup.alpha = 1f;
@@ -53,8 +63,10 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         PowWordUIManager.Instance.OnChange();
     }
 
+    /*
     public void OnDrop(PointerEventData eventData)
     {
+        
         DraggableLetter other = eventData.pointerDrag.GetComponent<DraggableLetter>();
         var dropZone1 = originalDropZone;
         var dropZone2 = other.originalDropZone;
@@ -63,5 +75,7 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         other.originalDropZone.ManualOnDrop(gameObject);
         other.originalDropZone = dropZone1;
         originalDropZone = dropZone2;
+        
     }
+    */
 }
