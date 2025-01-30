@@ -20,6 +20,10 @@ public class PlayerCompass : MonoBehaviour
             newCompass.transform.parent = transform;
             compasses[type] = new Compass(type, newCompass, compassSprites);
             newCompass.GetComponent<SpriteRenderer>().color = chunkManager.OutpostToColor(type);
+
+            //idk man
+            newCompass.GetComponent<SpriteRenderer>().flipX = true;
+            newCompass.GetComponent<SpriteRenderer>().flipY = true;
         }
 
         //chunkManager.OnOutpostsUpdated.AddListener(UpdateCompassPositions);
@@ -45,9 +49,10 @@ public class PlayerCompass : MonoBehaviour
                 );
 
                 Vector2 direction = (outpostWorldPos - (Vector2)playerPos).normalized;
-                compasses[kvp.Key].GO.transform.localPosition = direction;
+                compasses[kvp.Key].GO.transform.localPosition = CompassHelper.NormalizeToCardinal(direction);
 
-                compasses[kvp.Key].GO.GetComponent<SpriteRenderer>().sprite = GetDirectionalSprite(direction);
+                //compasses[kvp.Key].GO.GetComponent<SpriteRenderer>().sprite = GetDirectionalSprite(direction);
+                compasses[kvp.Key].GO.GetComponent<SpriteRenderer>().sprite = compassSprites[CompassHelper.GetCardinalIndex(direction)];
 
                 compasses[kvp.Key].GO.SetActive(true);
             }
@@ -56,41 +61,6 @@ public class PlayerCompass : MonoBehaviour
                 compasses[kvp.Key].GO.SetActive(false);
             }
         }
-    }
-
-    Sprite GetDirectionalSprite(Vector2 dir)
-    {
-        //float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
-
-        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        if (angle < 0) angle += 360f;
-
-        int spriteIndex;
-
-        if (angle > 337.5f || angle <= 22.5f)  // North (0)
-            spriteIndex = 0;
-        else if (angle > 22.5f && angle <= 67.5f)  // Northeast (1)
-            spriteIndex = 1;
-        else if (angle > 67.5f && angle <= 112.5f)  // East (2)
-            spriteIndex = 2;
-        else if (angle > 112.5f && angle <= 157.5f)  // Southeast (3)
-            spriteIndex = 3;
-        else if (angle > 157.5f && angle <= 202.5f)  // South (4)
-            spriteIndex = 4;
-        else if (angle > 202.5f && angle <= 247.5f)  // Southwest (5)
-            spriteIndex = 5;
-        else if (angle > 247.5f && angle <= 292.5f)  // West (6)
-            spriteIndex = 6;
-        else  // Northwest (7) - 292.5f to 337.5f
-            spriteIndex = 7;
-
-        //if (spriteIndex < directionalSprites.Count)
-        //{
-        //    sr.sprite = directionalSprites[spriteIndex];
-        //}
-
-        return compassSprites[spriteIndex];
     }
 }
 
@@ -105,5 +75,59 @@ public struct Compass
         Type = type;
         GO = go;
         Sprites = sprites;
+    }
+}
+
+public static class CompassHelper
+{
+    public static Vector2 NormalizeToCardinal(this Vector2 vector)
+    {
+        if (vector.magnitude < 0.001f)
+            return Vector2.zero;
+
+        float angle = Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
+
+        //i dont know why this fixes everything
+        //angle += 180;
+
+        if (angle < 0) angle += 360f;
+
+        if (angle > 337.5f || angle <= 22.5f)         // Right (0)
+            return Vector2.right;
+        else if (angle > 22.5f && angle <= 67.5f)     // Right-Up (1)
+            return new Vector2(1, 1).normalized;
+        else if (angle > 67.5f && angle <= 112.5f)    // Up (2)
+            return Vector2.up;
+        else if (angle > 112.5f && angle <= 157.5f)   // Left-Up (3)
+            return new Vector2(-1, 1).normalized;
+        else if (angle > 157.5f && angle <= 202.5f)   // Left (4)
+            return Vector2.left;
+        else if (angle > 202.5f && angle <= 247.5f)   // Left-Down (5)
+            return new Vector2(-1, -1).normalized;
+        else if (angle > 247.5f && angle <= 292.5f)   // Down (6)
+            return Vector2.down;
+        else                                          // Right-Down (7)
+            return new Vector2(1, -1).normalized;
+    }
+
+    public static int GetCardinalIndex(this Vector2 vector)
+    {
+        if (vector.magnitude < 0.001f)
+            return 0; 
+
+        float angle = Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
+
+        //i dont know why this fixes everything
+        angle += 90;
+        if (angle < 0) angle += 360f;
+
+        if (angle > 337.5f || angle <= 22.5f) return 0;  // Right
+        else if (angle > 22.5f && angle <= 67.5f) return 1;  // Right-Up
+        else if (angle > 67.5f && angle <= 112.5f) return 2;  // Up
+        else if (angle > 112.5f && angle <= 157.5f) return 3;  // Left-Up
+        else if (angle > 157.5f && angle <= 202.5f) return 4;  // Left
+        else if (angle > 202.5f && angle <= 247.5f) return 5;  // Left-Down
+        else if (angle > 247.5f && angle <= 292.5f) return 6;  // Down
+        else return 7;  // Right-Down
     }
 }
