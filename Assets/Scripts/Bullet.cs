@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
     [SerializeField] float timeUntilDeath = 5f;
+    [SerializeField] string doNotCollideTag = "Player";
     public int Damage { get; set; }
     public int Pierce { get; set; }
 
@@ -22,7 +23,7 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         IDamageable damageable = other.GetComponent<IDamageable>();
-        if (damageable != null && !other.gameObject.CompareTag("Player"))
+        if (damageable != null && !other.gameObject.CompareTag(doNotCollideTag))
         {
             damageable.TakeDamage(Damage);
         }

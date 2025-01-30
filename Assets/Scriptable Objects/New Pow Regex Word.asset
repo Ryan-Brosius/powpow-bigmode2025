@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: New Pow Regex Word
   m_EditorClassIdentifier: 
   defaultPowString: POW
-  currentPowString: POWWWPOWWPOW
+  currentPowString: POW
