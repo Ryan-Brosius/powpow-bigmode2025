@@ -22,14 +22,15 @@ public class PlayerCompass : MonoBehaviour
             newCompass.GetComponent<SpriteRenderer>().color = chunkManager.OutpostToColor(type);
         }
 
-        chunkManager.OnOutpostsUpdated.AddListener(UpdateCompassPositions);
+        //chunkManager.OnOutpostsUpdated.AddListener(UpdateCompassPositions);
+        PlayerMovement.Instance.ChangeSpot.AddListener((_)=>UpdateCompassPositions(chunkManager.ClosestOutposts));
     }
 
     private void Update()
     {
         transform.position = playerTransform.position;
     }
-
+    //void UpdateClosestOutposts() => UpdateClosestOutposts()
     void UpdateCompassPositions(Dictionary<OutpostType, Vector2Int?> closestOutposts)
     {
         var playerPos = playerTransform.position;
