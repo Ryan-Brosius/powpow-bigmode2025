@@ -15,11 +15,13 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private GameObject blockPrefab;
 
     public const int CHUNK_SIZE = 8;
-    private const int LOAD_DISTANCE = 166;
+    private const int LOAD_DISTANCE = 300;
 
     private Dictionary<Vector2Int, GameObject> activeChunks = new Dictionary<Vector2Int, GameObject>();
     private Dictionary<Vector2Int, OutpostType> outpostTypes = new Dictionary<Vector2Int, OutpostType>();
     private Dictionary<OutpostType, Vector2Int?> closestOutposts = new Dictionary<OutpostType, Vector2Int?>();
+
+    //[HideInInspector] public Dictionary<OutpostType, Vector2Int?> ClosestOutposts { get { return closestOutposts; } }
 
     public UnityEvent<Dictionary<OutpostType, Vector2Int?>> OnOutpostsUpdated = new UnityEvent<Dictionary<OutpostType, Vector2Int?>>();
 
@@ -30,6 +32,8 @@ public class ChunkManager : MonoBehaviour
     public static ChunkManager Instance => instance;
 
     public Dictionary<OutpostType, Vector2Int?> ClosestOutposts => closestOutposts;
+
+    System.Random random;
 
     private void Awake()
     {
@@ -57,17 +61,25 @@ public class ChunkManager : MonoBehaviour
 
     private void Start()
     {
-        worldSeed = Random.Range(0,1000);
+        worldSeed = Random.Range(0,100);
+        random = new System.Random(worldSeed);
+
+        //chunkCoord.x * 73856093 + chunkCoord.y * 19349663
+
         UpdateChunks(Vector2Int.zero);
         PlayerMovement.Instance.ChangeSpot.AddListener((Vector2 pos) => UpdateChunks(Vector2Int.RoundToInt(pos)));
     }
 
     private OutpostType DetermineOutpostType(Vector2Int chunkCoord)
     {
-        int hash = worldSeed;
-        hash = hash * 31 + chunkCoord.x;
-        hash = hash * 31 + chunkCoord.y;
-        return (OutpostType)((hash & 0x7fffffff) % 3);
+        //int hash = worldSeed;
+        //hash = hash * 31 + chunkCoord.x;
+        //hash = hash * 31 + chunkCoord.y;
+
+        //int hash = (worldSeed + 31* chunkCoord.x + 31 * chunkCoord.y).GetHashCode();
+        //return (OutpostType)((hash & 0x7fffffff) % 3);
+
+        return (OutpostType)random.Next(0,3);
     }
 
     private void UpdateClosestOutposts(Vector2Int playerPosition)
@@ -170,7 +182,6 @@ public class ChunkManager : MonoBehaviour
 
         //
 
-        System.Random random = new System.Random(worldSeed + chunkCoord.x * 73856093 + chunkCoord.y * 19349663);
 
         bool shouldHaveBlocks = random.Next(0, 10) == 0;
 
