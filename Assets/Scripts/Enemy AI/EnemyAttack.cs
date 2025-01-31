@@ -17,10 +17,13 @@ public class EnemyAttack : MonoBehaviour
     [Range(0f, 5f)] public int extraShotsInARow = 0;
     [Tooltip("Distance in time between extra shots")]
     [Range(0f, 1f)] public float extraShotFireRate = 0.1f;
+    [Tooltip("Max distance enemy can be before it attacks player")]
+    [SerializeField] private bool canOnlyAttackWithinCamera = true;
 
     public void PerformAttack(Transform firePoint, Transform target)
     {
         Vector3 direction = target.position - firePoint.position;
+        if (canOnlyAttackWithinCamera && !IsTransformInView(Camera.main, transform)) return;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         for (int i = 0; i < bulletCount; i++)
@@ -51,5 +54,14 @@ public class EnemyAttack : MonoBehaviour
                 Instantiate(bulletPrefab, firePoint.position + extraDistance, rotation);
             }
         }
+    }
+
+    private bool IsTransformInView(Camera cam, Transform target)
+    {
+        Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
+        Debug.Log(viewportPos);
+
+        return viewportPos.x >= 0 && viewportPos.x <= 1 &&
+               viewportPos.y >= 0 && viewportPos.y <= 1;
     }
 }
