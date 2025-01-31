@@ -17,7 +17,10 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        enemyMovement.Move(target);
+        if (enemyMovement != null)
+        {
+            enemyMovement.Move(target);
+        }
     }
 
     protected virtual IEnumerator Attack()
