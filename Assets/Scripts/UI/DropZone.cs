@@ -46,7 +46,7 @@ public class DropZone : MonoBehaviour, IDropHandler
         ResizeCaseUI();
     }
 
-    private void AddLetter(GameObject letterToAdd)
+    public void AddLetter(GameObject letterToAdd)
     {
         lettersList.Add(letterToAdd);
         letterToAdd.transform.SetParent(this.transform);

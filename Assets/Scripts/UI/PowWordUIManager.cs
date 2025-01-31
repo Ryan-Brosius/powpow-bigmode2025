@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class PowWordUIManager : MonoBehaviour
 {
+    [Header("UI Objects")]
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] GameObject bulletsParent;
     [SerializeField] public List<DropZone> dropZones;
     private string currentPow;
+
+    [Header("Letter Objects")]
+    [SerializeField] GameObject letterP;
+    [SerializeField] GameObject letterO;
+    [SerializeField] GameObject letterW;
 
     public static PowWordUIManager Instance { get; private set; }
 
@@ -59,7 +64,7 @@ public class PowWordUIManager : MonoBehaviour
 
     void CreateBlankBullet()
     {
-        GameObject newBullet = Instantiate(bulletPrefab, bulletsParent.transform);
+        GameObject newBullet = Instantiate(bulletPrefab, this.transform);
         
         dropZones.Add(newBullet.GetComponent<DropZone>());
     }
@@ -75,5 +80,22 @@ public class PowWordUIManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void LetterPickup(char letterToAdd)
+    {
+        if (letterToAdd == 'P')
+        {
+            dropZones[0].AddLetter(Instantiate(letterP, dropZones[0].transform));
+        } 
+        else if (letterToAdd == 'O')
+        {
+            dropZones[0].AddLetter(Instantiate(letterO, dropZones[0].transform));
+        }
+        else if (letterToAdd == 'W')
+        {
+            dropZones[0].AddLetter(Instantiate(letterW, dropZones[0].transform));
+        }
+        OnChange();
     }
 }
