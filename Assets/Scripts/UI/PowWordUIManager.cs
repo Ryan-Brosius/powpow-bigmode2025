@@ -7,8 +7,13 @@ public class PowWordUIManager : MonoBehaviour
 {
     [Header("UI Objects")]
     [SerializeField] GameObject bulletPrefab;
+    public GameObject bulletsParent;
     [SerializeField] public List<DropZone> dropZones;
     private string currentPow;
+    public GameObject gunMenu;
+    public Transform hudPosition;
+    public Transform menuPosition;
+    private bool menuOpen = false;
 
     [Header("Letter Objects")]
     [SerializeField] GameObject letterP;
@@ -33,6 +38,34 @@ public class PowWordUIManager : MonoBehaviour
     {
         currentPow = GetCurrentPowString();
         PowerGameState.Instance.PowString = currentPow;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ToggleMenuScreen();
+        }
+    }
+
+
+
+    public void ToggleMenuScreen()
+    {
+        if (!menuOpen)
+        {
+            gunMenu.SetActive(true);
+            menuOpen = true;
+            Time.timeScale = 0;
+            bulletsParent.transform.position = menuPosition.position;
+        }
+        else
+        {
+            gunMenu.SetActive(false);
+            menuOpen = false;
+            Time.timeScale = 1;
+            bulletsParent.transform.position = hudPosition.position;
+        }
     }
 
     public void OnChange()
@@ -64,7 +97,7 @@ public class PowWordUIManager : MonoBehaviour
 
     void CreateBlankBullet()
     {
-        GameObject newBullet = Instantiate(bulletPrefab, this.transform);
+        GameObject newBullet = Instantiate(bulletPrefab, bulletsParent.transform);
         
         dropZones.Add(newBullet.GetComponent<DropZone>());
     }

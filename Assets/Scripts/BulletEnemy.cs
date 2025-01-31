@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class BulletEnemy : MonoBehaviour
 {
-    [SerializeField] float speed = 10f;
-    [SerializeField] float timeUntilDeath = 5f;
-    [SerializeField] float deathTimer = 0.4f;
-    [SerializeField] string doNotCollideTag = "Player";
-    public int Damage { get; set; }
-    public int Pierce { get; set; }
+    [SerializeField] float speed = 5f;
+    [SerializeField] float timeUntilDeath = 3f;
+    [SerializeField] float deathTimer = 0.2f;
+    [SerializeField] string doNotCollideTag = "Enemy";
+    public int Damage = 1;
+    public int Pierce = 1;
 
     private void Awake()
     {
