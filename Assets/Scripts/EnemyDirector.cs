@@ -23,17 +23,19 @@ public class EnemyDirector : MonoBehaviour
     public EnemyDatabase enemyDatabase;
 
     [Header("Spawn Settings")]
-    [SerializeField] private float spawnInterval = 5f;
+    [SerializeField] private float spawnInterval = 3f;
     [SerializeField] private float pointsPerSecond = 1f;
     [SerializeField] private float minSpawnDistance = 10f;
     [SerializeField] private float maxSpawnDistance = 20f;
     [SerializeField] private int maxEnemiesAtATime = 15;
     [SerializeField] private int smallestWave = 5;
+    [SerializeField] private float enemyDespawnDistance = 30f;
 
     private List<GameObject> enemiesSpawned = new List<GameObject>();
     private Transform player;
     private float points = 0f;
     private float waveSpawnTries = 5;
+    private float intensity = 1;
 
     void Start()
     {
@@ -43,7 +45,18 @@ public class EnemyDirector : MonoBehaviour
 
     void Update()
     {
-        points += pointsPerSecond * Time.deltaTime;
+        determineIntensity();
+        points += pointsPerSecond * Time.deltaTime * intensity;
+    }
+
+    void determineIntensity()
+    {
+        if (enemiesSpawned.Count >= maxEnemiesAtATime)
+        {
+            intensity = 0.15f;
+        }
+
+        intensity = 1f;
     }
 
     IEnumerator SpawnLoop()
@@ -52,6 +65,7 @@ public class EnemyDirector : MonoBehaviour
         {
             yield return new WaitForSeconds(spawnInterval);
             TrySpawnEnemies();
+            CleanDistantEnemies();
         }
     }
 
@@ -67,7 +81,7 @@ public class EnemyDirector : MonoBehaviour
         int tries = 0;
         while (tries < waveSpawnTries && chosenEnemies.Count < smallestWave)
         {
-            chosenEnemies = getWave(affordableEnemies);
+            chosenEnemies = GetWave(affordableEnemies);
             tries++;
         }
         if (chosenEnemies.Count < smallestWave) chosenEnemies.Clear();
@@ -94,16 +108,16 @@ public class EnemyDirector : MonoBehaviour
         randomPos.Normalize();
         randomPos = randomPos * minSpawnDistance + (Random.Range(0, maxSpawnDistance - minSpawnDistance) * randomPos);
 
-        return randomPos;
+        return randomPos + player.transform.position;
     }
 
-    List<EnemyData> getWave(List<EnemyData> affordableEnemies)
+    List<EnemyData> GetWave(List<EnemyData> affordableEnemies)
     {
         float tempPoints = points;
         List<EnemyData> enemiesToBuy = new List<EnemyData>();
         while (enemiesToBuy.Count < maxEnemiesAtATime - enemiesSpawned.Count && affordableEnemies.Count > 0)
         {
-            int randomEnemyToBuy = Random.Range(0, affordableEnemies.Count);
+            int randomEnemyToBuy = Mathf.Max(Random.Range(0, affordableEnemies.Count), Random.Range(0, affordableEnemies.Count));
             EnemyData randomEnemy = affordableEnemies[randomEnemyToBuy];
             tempPoints -= randomEnemy.cost;
             enemiesToBuy.Add(randomEnemy);
@@ -112,5 +126,14 @@ public class EnemyDirector : MonoBehaviour
         }
 
         return enemiesToBuy;
+    }
+
+    void CleanDistantEnemies()
+    {
+        foreach (GameObject e in enemiesSpawned)
+        {
+            if ((e.transform.position - player.transform.position).magnitude > enemyDespawnDistance) Destroy(e);
+        }
+        enemiesSpawned.RemoveAll(e => (e.transform.position - player.transform.position).magnitude > enemyDespawnDistance);
     }
 }

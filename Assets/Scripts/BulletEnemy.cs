@@ -45,8 +45,15 @@ public class BulletEnemy : MonoBehaviour
     IEnumerator BulletDeath()
     {
         speed = 0f;
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+        if (gameObject.TryGetComponent<BoxCollider2D>(out var boxCollider))
+        {
+            boxCollider.enabled = false;
+        }
+        if (gameObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+        {
+            spriteRenderer.enabled = false;
+        }
         yield return new WaitForSeconds(deathTimer);
         Destroy(gameObject);
     }

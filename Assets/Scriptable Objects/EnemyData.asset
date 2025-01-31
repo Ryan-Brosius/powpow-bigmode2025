@@ -15,7 +15,7 @@ MonoBehaviour:
   enemyList:
   - enemyPrefab: {fileID: 7339100019308124913, guid: 248000aa8c594ee4d9e566d834c2118f, type: 3}
     cost: 5
-  - enemyPrefab: {fileID: 3953360459265352157, guid: e39f3026457d8524e8c47a1491641a01, type: 3}
+  - enemyPrefab: {fileID: 4961626569025260579, guid: e39f3026457d8524e8c47a1491641a01, type: 3}
     cost: 5
   - enemyPrefab: {fileID: 7112161766343538884, guid: 7ecb7c29ba31c2c48b5d1e8fe5e7545c, type: 3}
     cost: 5
