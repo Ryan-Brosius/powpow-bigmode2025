@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -27,10 +28,12 @@ public class EnemyDirector : MonoBehaviour
     [SerializeField] private float minSpawnDistance = 10f;
     [SerializeField] private float maxSpawnDistance = 20f;
     [SerializeField] private int maxEnemiesAtATime = 15;
+    [SerializeField] private int smallestWave = 5;
 
     private List<GameObject> enemiesSpawned = new List<GameObject>();
     private Transform player;
     private float points = 0f;
+    private float waveSpawnTries = 5;
 
     void Start()
     {
@@ -57,17 +60,30 @@ public class EnemyDirector : MonoBehaviour
         enemiesSpawned.RemoveAll(e => e == null);
         if (enemiesSpawned.Count >= maxEnemiesAtATime) return;
 
-        List<EnemyData> affordableEnemies = enemyDatabase.enemyList.FindAll(e => e.cost <= points);
+        List<EnemyData> affordableEnemies = enemyDatabase.enemyList.FindAll(e => e.cost <= points).OrderByDescending(e => e.cost).ToList();
         if (affordableEnemies.Count == 0) return;
 
-        EnemyData chosenEnemy = affordableEnemies[Random.Range(0, affordableEnemies.Count)];
+        List<EnemyData> chosenEnemies = new List<EnemyData>();
+        int tries = 0;
+        while (tries < waveSpawnTries && chosenEnemies.Count < smallestWave)
+        {
+            chosenEnemies = getWave(affordableEnemies);
+            tries++;
+        }
+        if (chosenEnemies.Count < smallestWave) chosenEnemies.Clear();
 
         Vector3 spawnPos = GetSpawnPosition();
+
         if (spawnPos != Vector3.zero)
         {
-            var e = Instantiate(chosenEnemy.enemyPrefab, spawnPos, Quaternion.identity);
-            enemiesSpawned.Add(e);
-            points -= chosenEnemy.cost;
+            foreach (EnemyData enemy in chosenEnemies)
+            {
+                Vector3 spawnVariance = (new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), 0f)).normalized;
+
+                var e = Instantiate(enemy.enemyPrefab, spawnPos + spawnVariance, Quaternion.identity);
+                enemiesSpawned.Add(e);
+                points -= enemy.cost;
+            }
         }
     }
 
@@ -79,5 +95,22 @@ public class EnemyDirector : MonoBehaviour
         randomPos = randomPos * minSpawnDistance + (Random.Range(0, maxSpawnDistance - minSpawnDistance) * randomPos);
 
         return randomPos;
+    }
+
+    List<EnemyData> getWave(List<EnemyData> affordableEnemies)
+    {
+        float tempPoints = points;
+        List<EnemyData> enemiesToBuy = new List<EnemyData>();
+        while (enemiesToBuy.Count < maxEnemiesAtATime - enemiesSpawned.Count && affordableEnemies.Count > 0)
+        {
+            int randomEnemyToBuy = Random.Range(0, affordableEnemies.Count);
+            EnemyData randomEnemy = affordableEnemies[randomEnemyToBuy];
+            tempPoints -= randomEnemy.cost;
+            enemiesToBuy.Add(randomEnemy);
+
+            affordableEnemies.RemoveAll(e => e.cost >= tempPoints);
+        }
+
+        return enemiesToBuy;
     }
 }
