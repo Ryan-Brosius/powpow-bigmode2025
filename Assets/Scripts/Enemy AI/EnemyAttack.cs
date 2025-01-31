@@ -59,7 +59,6 @@ public class EnemyAttack : MonoBehaviour
     private bool IsTransformInView(Camera cam, Transform target)
     {
         Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
-        Debug.Log(viewportPos);
 
         return viewportPos.x >= 0 && viewportPos.x <= 1 &&
                viewportPos.y >= 0 && viewportPos.y <= 1;
