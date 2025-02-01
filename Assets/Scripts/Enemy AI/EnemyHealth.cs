@@ -19,6 +19,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private void Die()
     {
         Destroy(gameObject);
+
+        GameManager.Instance.StartSlowMotionEffect();
     }
 }
 

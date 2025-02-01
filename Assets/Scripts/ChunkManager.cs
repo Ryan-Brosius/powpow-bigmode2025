@@ -17,6 +17,7 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private GameObject blockPrefab;
 
     [SerializeField] private List<Sprite> floorSprites = new();
+    [SerializeField] private List<Sprite> decorSprites = new();
     [SerializeField] private List<Outpost> outposts = new();
 
     public const int CHUNK_SIZE = 8;
@@ -219,7 +220,7 @@ public class ChunkManager : MonoBehaviour
                     int gridY = random.Next(0, gridSize);
                     var gridPos = new Vector2Int(gridX, gridY);
 
-                    if (isLargeAreaClear(gridPos, outPostGridTaken))
+                    if (IsLargeAreaClear(gridPos, outPostGridTaken))
                     {
                         // Each grid cell is 2x2 units (CHUNK_SIZE / gridSize)
                         float cellSize = CHUNK_SIZE / (float)gridSize;
@@ -250,7 +251,7 @@ public class ChunkManager : MonoBehaviour
             }
         }
 
-        int floorTileCount = random.Next(3, 6); 
+        int floorTileCount = random.Next(1, 4); 
         for (int i = 0; i < floorTileCount; i++)
         {
             int maxAttempts = 10; 
@@ -263,11 +264,24 @@ public class ChunkManager : MonoBehaviour
                 {
                     Vector3 localPos = new Vector3(newPos.x, newPos.y, 0);
 
-                    GameObject floor = Instantiate(blockPrefab, chunkObject.transform);
-                    floor.transform.localPosition = localPos;
-                    floor.GetComponent<SpriteRenderer>().sprite = floorSprites[random.Next(0, floorSprites.Count)];
-                    floor.GetComponent<SpriteRenderer>().sortingOrder = -1;
-                    takenBlocks.Add(newPos);
+                    if (random.Next(0, 2) == 1)
+                    {
+                        GameObject floor = Instantiate(blockPrefab, chunkObject.transform);
+                        floor.transform.localPosition = localPos;
+                        floor.GetComponent<SpriteRenderer>().sprite = floorSprites[random.Next(0, floorSprites.Count)];
+                        floor.GetComponent<SpriteRenderer>().sortingOrder = -1;
+                        takenBlocks.Add(newPos);
+                    }
+                    else
+                    {
+                        GameObject decor = Instantiate(blockPrefab, chunkObject.transform);
+                        decor.transform.localPosition = localPos;
+                        decor.GetComponent<SpriteRenderer>().sprite = decorSprites[random.Next(0, decorSprites.Count)];
+                        decor.GetComponent<SpriteRenderer>().sortingOrder = -1;
+                        decor.AddComponent<Rigidbody2D>().isKinematic = true;
+                        decor.AddComponent<BoxCollider2D>().size*=0.5f;
+                        takenBlocks.Add(newPos);
+                    }
                     break;
                 }
                 attempts++;
@@ -291,7 +305,7 @@ public class ChunkManager : MonoBehaviour
         return Color.white;
     }
 
-    private bool isLargeAreaClear(Vector2Int gridPos, HashSet<Vector2Int> grid)
+    private bool IsLargeAreaClear(Vector2Int gridPos, HashSet<Vector2Int> grid)
     {
         Vector2Int[] directions = {
             new Vector2Int(-1, -1), new Vector2Int(0, -1), new Vector2Int(1, -1),

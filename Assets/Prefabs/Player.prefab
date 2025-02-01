@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 5449516362144796471}
   - component: {fileID: 283307062300830351}
   - component: {fileID: 4047929028347772287}
+  - component: {fileID: 2471852689545078126}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -405,8 +406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f8208c6b045db4e815fac496e0aac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 3
+  maxHealth: 999
+  currentHealth: 999
 --- !u!58 &4047929028347772287
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -442,6 +443,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2471852689545078126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6016946602577464097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdccd2ca48c0e3a4e89690461a34779d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowMotionDuration: 0.05
+  slowMotionTimeScale: 0.25
 --- !u!1 &7558168423493966503
 GameObject:
   m_ObjectHideFlags: 0
