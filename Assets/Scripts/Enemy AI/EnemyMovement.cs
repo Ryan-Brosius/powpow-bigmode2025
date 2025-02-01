@@ -174,9 +174,6 @@ public class EnemyMovement : MonoBehaviour
 
                     if ((neighbor - targetPos).magnitude < (bestFailure - targetPos).magnitude)
                     {
-                        Debug.Log(neighbor);
-                        Debug.Log((neighbor - targetPos).magnitude);
-                        Debug.Log((bestFailure - targetPos).magnitude);
                         bestFailure = neighbor;
                     }
                 }
