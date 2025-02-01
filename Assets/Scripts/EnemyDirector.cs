@@ -25,6 +25,7 @@ public class EnemyDirector : MonoBehaviour
     [Header("Spawn Settings")]
     [SerializeField] private float spawnInterval = 3f;
     [SerializeField] private float pointsPerSecond = 1f;
+    [SerializeField] private float maxStoredPoints = 30f;
     [SerializeField] private float minSpawnDistance = 10f;
     [SerializeField] private float maxSpawnDistance = 20f;
     [SerializeField] private int maxEnemiesAtATime = 15;
@@ -48,15 +49,25 @@ public class EnemyDirector : MonoBehaviour
 
     void Update()
     {
+        CheckHutInView();
         determineIntensity();
         points += pointsPerSecond * Time.deltaTime * intensity;
+
+        if (points > maxStoredPoints) points = maxStoredPoints;
     }
 
     void determineIntensity()
     {
         if (enemiesSpawned.Count >= maxEnemiesAtATime)
         {
-            intensity = 0.15f;
+            intensity = 0.3f;
+            return;
+        }
+
+        if (spawnAtHuts)
+        {
+            intensity = 2f;
+            return;
         }
 
         intensity = 1f;
@@ -173,6 +184,25 @@ public class EnemyDirector : MonoBehaviour
             if ((e.transform.position - player.transform.position).magnitude > enemyDespawnDistance) Destroy(e);
         }
         enemiesSpawned.RemoveAll(e => (e.transform.position - player.transform.position).magnitude > enemyDespawnDistance);
+    }
+
+    private void CheckHutInView()
+    {
+        foreach (var (outpost, pos) in levelGen.ClosestOutposts)
+        {
+            if (pos != null && levelGen.OutpostsInChunk.ContainsKey((Vector2Int)pos))
+            {
+                foreach (var hut in levelGen.OutpostsInChunk[(Vector2Int)pos])
+                {
+                    if (IsTransformInView(Camera.main, hut.transform))
+                    {
+                        spawnAtHuts = true;
+                        return;
+                    }
+                }
+            }
+        }
+        spawnAtHuts = false;
     }
 
     private bool IsTransformInView(Camera cam, Transform target)
