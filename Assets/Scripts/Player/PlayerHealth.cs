@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Start()
     {
         // currentHealth = maxHealth;
-        healthUI = GameObject.Find("Health Case").GetComponent<HealthCase>();
+        if (GameObject.Find("Health Case")) healthUI = GameObject.Find("Health Case").GetComponent<HealthCase>();
 
         if (healthUI) healthUI.InitializeHealthUI(currentHealth);
     }

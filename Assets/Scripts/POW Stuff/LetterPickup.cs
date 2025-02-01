@@ -30,14 +30,20 @@ public class LetterPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && letterValue != 'E')
+        if (collision.tag == "Player")
         {
-            if (powWordUI) powWordUI.LetterPickup(letterValue);
-            Destroy(gameObject);
-        }
-        else if (collision.tag == "Player" && letterValue == 'E')
-        {
-            collision.GetComponent<PlayerHealth>().TakeDamage(-1);
+            if (letterValue == 'P' || letterValue == 'O' || letterValue == 'W')
+            {
+                if (powWordUI) powWordUI.LetterPickup(letterValue);
+            }
+            else if (letterValue == 'E')
+            {
+                collision.GetComponent<PlayerHealth>().TakeDamage(-1);
+            }
+            else if (letterValue == 'R')
+            {
+                collision.GetComponent<PlayerMovement>().IncreaseMaxRoll();
+            }
             Destroy(gameObject);
         }
     }
