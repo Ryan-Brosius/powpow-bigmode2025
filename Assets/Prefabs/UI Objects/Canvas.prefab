@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1298316418287354579}
   m_Layer: 5
   m_Name: Bullets Parent
-  m_TagString: Bullets
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -344,6 +344,7 @@ MonoBehaviour:
   letterW: {fileID: 7473987811723649504, guid: 3abd8719f0eef2b40a2fc8e50532295c, type: 3}
   currentLength: 0
   maxLength: 15
+  initialString: POW
 --- !u!1 &4792120038400135219
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] float speed = 10f;
-    [SerializeField] float timeUntilDeath = 5f;
+    [SerializeField] public float speed = 10f;
+    [SerializeField] public float timeUntilDeath = 5f;
     [SerializeField] float deathTimer = 0.4f;
     [SerializeField] string doNotCollideTag = "Player";
     public int Damage { get; set; }

@@ -37,18 +37,19 @@ public class PowWordUIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        currentPow = GetCurrentPowString();
+        if (PowerGameState.Instance)
+        PowerGameState.Instance.PowString = currentPow;
 
         currentPow = initialString;
         foreach (char letter in initialString)
         {
             LetterPickup(letter);
         }
-    }
-
-    private void Start()
-    {
-        currentPow = GetCurrentPowString();
-        PowerGameState.Instance.PowString = currentPow;
     }
 
     private void Update()
@@ -84,7 +85,7 @@ public class PowWordUIManager : MonoBehaviour
         currentPow = GetCurrentPowString();
         PowerGameState.Instance.PowString = currentPow;
 
-        if (dropZones.Last().isLoaded)
+        if (dropZones.Last().isLoaded && dropZones.Count < 5)
         {
             CreateBlankBullet();
         }
