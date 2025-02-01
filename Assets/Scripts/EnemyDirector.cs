@@ -192,6 +192,7 @@ public class EnemyDirector : MonoBehaviour
         {
             if (pos != null && levelGen.OutpostsInChunk.ContainsKey((Vector2Int)pos))
             {
+                levelGen.OutpostsInChunk[(Vector2Int)pos].RemoveAll(e => e == null);
                 foreach (var hut in levelGen.OutpostsInChunk[(Vector2Int)pos])
                 {
                     if (IsTransformInView(Camera.main, hut.transform))
