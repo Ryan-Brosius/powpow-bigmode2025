@@ -25,6 +25,7 @@ public class ChunkManager : MonoBehaviour
     private Dictionary<Vector2Int, GameObject> activeChunks = new Dictionary<Vector2Int, GameObject>();
     private Dictionary<Vector2Int, OutpostType> outpostTypes = new Dictionary<Vector2Int, OutpostType>();
     private Dictionary<OutpostType, Vector2Int?> closestOutposts = new Dictionary<OutpostType, Vector2Int?>();
+    private Dictionary<Vector2Int, List<GameObject>> outpostsInChunk = new Dictionary<Vector2Int, List<GameObject>>();
 
     //[HideInInspector] public Dictionary<OutpostType, Vector2Int?> ClosestOutposts { get { return closestOutposts; } }
 
@@ -37,6 +38,11 @@ public class ChunkManager : MonoBehaviour
     public static ChunkManager Instance => instance;
 
     public Dictionary<OutpostType, Vector2Int?> ClosestOutposts => closestOutposts;
+    public Dictionary<Vector2Int, List<GameObject>> OutpostsInChunk
+    {
+        get { return outpostsInChunk; }
+        set { outpostsInChunk = value; }
+    }
 
     System.Random random;
 
@@ -191,44 +197,55 @@ public class ChunkManager : MonoBehaviour
 
         if (shouldHaveBlocks)
         {
+            OutpostsInChunk[chunkCoord] = new List<GameObject>();
             OutpostType outpostType = DetermineOutpostType(chunkCoord);
             outpostTypes[chunkCoord] = outpostType;
 
             // Define the grid size for hut placement
             int gridSize = 4; // Dividing the chunk into a 4x4 grid for hut placement
             var outPostGridTaken = new HashSet<Vector2Int>(); // Changed to HashSet
-            int outpostCount = random.Next(1, 4); // Reduced max count to prevent overcrowding
+            int outpostCount = random.Next(1, 3); // Reduced max count to prevent overcrowding
+            var outpostPrefab = outposts[Random.Range(0, outposts.Count - 1)].Prefab;
 
             for (int i = 0; i < outpostCount; i++)
             {
-                // Generate grid position
-                int gridX = random.Next(0, gridSize);
-                int gridY = random.Next(0, gridSize);
-                var gridPos = new Vector2Int(gridX, gridY);
+                int maxHutAttemps = 10;
+                int hutAttempts = 0;
 
-                if (!outPostGridTaken.Contains(gridPos))
+                while (hutAttempts < maxHutAttemps)
                 {
-                    // Each grid cell is 2x2 units (CHUNK_SIZE / gridSize)
-                    float cellSize = CHUNK_SIZE / (float)gridSize;
-                    Vector3 localPos = new Vector3(
-                        gridX * cellSize + cellSize / 2,
-                        gridY * cellSize + cellSize / 2,
-                        0
-                    );
+                    // Generate grid position
+                    int gridX = random.Next(0, gridSize);
+                    int gridY = random.Next(0, gridSize);
+                    var gridPos = new Vector2Int(gridX, gridY);
 
-                    GameObject hut = Instantiate(blockPrefab, chunkObject.transform);
-                    hut.transform.localPosition = localPos;
-                    hut.GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
-                    hut.GetComponent<SpriteRenderer>().sprite = outposts.Where(w => w.Type.Equals(outpostType)).ToList()[0].Sprite;
+                    if (isLargeAreaClear(gridPos, outPostGridTaken))
+                    {
+                        // Each grid cell is 2x2 units (CHUNK_SIZE / gridSize)
+                        float cellSize = CHUNK_SIZE / (float)gridSize;
+                        Vector3 localPos = new Vector3(
+                            gridX * cellSize + cellSize / 2,
+                            gridY * cellSize + cellSize / 2,
+                            0
+                        );
 
-                    outPostGridTaken.Add(gridPos);
+                        GameObject hut = Instantiate(outpostPrefab, chunkObject.transform);
+                        hut.transform.localPosition = localPos;
+                        OutpostsInChunk[chunkCoord].Add(hut);
+                        //hut.GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
+                        //hut.GetComponent<SpriteRenderer>().sprite = outposts.Where(w => w.Type.Equals(outpostType)).ToList()[0].Sprite;
 
-                    int blockX = Mathf.FloorToInt(localPos.x);
-                    int blockY = Mathf.FloorToInt(localPos.y);
-                    takenBlocks.Add(new Vector2Int(blockX, blockY));
-                    takenBlocks.Add(new Vector2Int(blockX + 1, blockY));
-                    takenBlocks.Add(new Vector2Int(blockX, blockY + 1));
-                    takenBlocks.Add(new Vector2Int(blockX + 1, blockY + 1));
+                        outPostGridTaken.Add(gridPos);
+
+                        int blockX = Mathf.FloorToInt(localPos.x);
+                        int blockY = Mathf.FloorToInt(localPos.y);
+                        takenBlocks.Add(new Vector2Int(blockX, blockY));
+                        takenBlocks.Add(new Vector2Int(blockX + 1, blockY));
+                        takenBlocks.Add(new Vector2Int(blockX, blockY + 1));
+                        takenBlocks.Add(new Vector2Int(blockX + 1, blockY + 1));
+                        break;
+                    }
+                    hutAttempts++;
                 }
             }
         }
@@ -249,6 +266,7 @@ public class ChunkManager : MonoBehaviour
                     GameObject floor = Instantiate(blockPrefab, chunkObject.transform);
                     floor.transform.localPosition = localPos;
                     floor.GetComponent<SpriteRenderer>().sprite = floorSprites[random.Next(0, floorSprites.Count)];
+                    floor.GetComponent<SpriteRenderer>().sortingOrder = -1;
                     takenBlocks.Add(newPos);
                     break;
                 }
@@ -272,11 +290,32 @@ public class ChunkManager : MonoBehaviour
         }
         return Color.white;
     }
+
+    private bool isLargeAreaClear(Vector2Int gridPos, HashSet<Vector2Int> grid)
+    {
+        Vector2Int[] directions = {
+            new Vector2Int(-1, -1), new Vector2Int(0, -1), new Vector2Int(1, -1),
+            new Vector2Int(-1,  0),                        new Vector2Int(1,  0),
+            new Vector2Int(-1,  1), new Vector2Int(0,  1), new Vector2Int(1,  1)
+        };
+
+        if (grid.Contains(gridPos))
+            return false;
+
+        foreach (Vector2Int dir in directions)
+        {
+            Vector2Int neighborPos = gridPos + dir;
+            if (grid.Contains(neighborPos))
+                return false;
+        }
+
+        return true;
+    }
 }
 
 [System.Serializable]
 struct Outpost
 {
     public OutpostType Type;
-    public Sprite Sprite;
+    public GameObject Prefab;
 }

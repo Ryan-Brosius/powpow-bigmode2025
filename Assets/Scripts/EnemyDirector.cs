@@ -30,7 +30,9 @@ public class EnemyDirector : MonoBehaviour
     [SerializeField] private int maxEnemiesAtATime = 15;
     [SerializeField] private int smallestWave = 5;
     [SerializeField] private float enemyDespawnDistance = 30f;
+    [SerializeField] private bool spawnAtHuts = true;
 
+    private ChunkManager levelGen;
     private List<GameObject> enemiesSpawned = new List<GameObject>();
     private Transform player;
     private float points = 0f;
@@ -39,6 +41,7 @@ public class EnemyDirector : MonoBehaviour
 
     void Start()
     {
+        levelGen = ChunkManager.Instance;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         StartCoroutine(SpawnLoop());
     }
@@ -103,6 +106,39 @@ public class EnemyDirector : MonoBehaviour
 
     Vector3 GetSpawnPosition()
     {
+
+        List<GameObject> closestHuts = new List<GameObject>();
+        Vector2Int closeHutPos = Vector2Int.zero;
+        foreach (var (outpost, pos) in levelGen.ClosestOutposts)
+        {
+            if (pos != null && levelGen.OutpostsInChunk.ContainsKey((Vector2Int)pos))
+            {
+                if (closestHuts.Count == 0) {
+                    closestHuts = levelGen.OutpostsInChunk[(Vector2Int)pos];
+                    closeHutPos = (Vector2Int)pos;
+                    continue;
+                }
+
+                float outpostDistance = ((new Vector3(pos.Value.x, pos.Value.y, 0) * (float)ChunkManager.CHUNK_SIZE) - player.transform.position).magnitude;
+                float prevOutpostDistance = ((new Vector3(closeHutPos.x, closeHutPos.y, 0) * (float)ChunkManager.CHUNK_SIZE) - player.transform.position).magnitude;
+
+                if (outpostDistance < prevOutpostDistance)
+                {
+                    closestHuts = levelGen.OutpostsInChunk[(Vector2Int)pos];
+                    closeHutPos = (Vector2Int)pos;
+                }
+            }
+        }
+
+        if (closestHuts.Count > 0)
+        {
+            closestHuts.Shuffle();
+            foreach (var hut in closestHuts)
+            {
+                if (IsTransformInView(Camera.main, hut.transform)) return hut.transform.position - new Vector3(0.0f, 1.6f, 0.0f);
+            }
+        }
+
         Vector3 randomPos = Random.insideUnitSphere;
         randomPos.z = 0;
         randomPos.Normalize();
@@ -135,5 +171,13 @@ public class EnemyDirector : MonoBehaviour
             if ((e.transform.position - player.transform.position).magnitude > enemyDespawnDistance) Destroy(e);
         }
         enemiesSpawned.RemoveAll(e => (e.transform.position - player.transform.position).magnitude > enemyDespawnDistance);
+    }
+
+    private bool IsTransformInView(Camera cam, Transform target)
+    {
+        Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
+
+        return viewportPos.x >= 0 && viewportPos.x <= 1 &&
+               viewportPos.y >= 0 && viewportPos.y <= 1;
     }
 }
