@@ -20,6 +20,11 @@ public class PowWordUIManager : MonoBehaviour
     [SerializeField] GameObject letterO;
     [SerializeField] GameObject letterW;
 
+    [Header("Bullet Stuff")]
+    [SerializeField] int currentLength;
+    [SerializeField] int maxLength = 15;
+    [SerializeField] string initialString = "POW";
+
     public static PowWordUIManager Instance { get; private set; }
 
     private void Awake()
@@ -31,6 +36,12 @@ public class PowWordUIManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        currentPow = initialString;
+        foreach (char letter in initialString)
+        {
+            LetterPickup(letter);
         }
     }
 
@@ -117,6 +128,8 @@ public class PowWordUIManager : MonoBehaviour
 
     public void LetterPickup(char letterToAdd)
     {
+        if (currentLength >= maxLength) return;
+
         if (letterToAdd == 'P')
         {
             dropZones[0].AddLetter(Instantiate(letterP, dropZones[0].transform));
@@ -129,6 +142,7 @@ public class PowWordUIManager : MonoBehaviour
         {
             dropZones[0].AddLetter(Instantiate(letterW, dropZones[0].transform));
         }
+        currentLength++;
         OnChange();
     }
 }

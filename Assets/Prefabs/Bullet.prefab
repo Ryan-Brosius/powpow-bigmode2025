@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25bf33405a035c45b98fd9523e51c75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 10
   timeUntilDeath: 2
   deathTimer: 0.2
   doNotCollideTag: Player
