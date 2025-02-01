@@ -49,7 +49,6 @@ MonoBehaviour:
   timeUntilDeath: 0.03
   deathTimer: 0
   doNotCollideTag: Enemy
-  Damage: 1
   Pierce: 1
 --- !u!61 &4617304327940009155
 BoxCollider2D:
@@ -80,7 +79,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.000000029802322, y: -0.0009889975}

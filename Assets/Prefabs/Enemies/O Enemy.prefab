@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8796292324854493680}
   - component: {fileID: 3667760787368252557}
   - component: {fileID: 857405652124500120}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: O Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

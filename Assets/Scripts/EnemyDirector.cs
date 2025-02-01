@@ -113,6 +113,8 @@ public class EnemyDirector : MonoBehaviour
         {
             if (pos != null && levelGen.OutpostsInChunk.ContainsKey((Vector2Int)pos))
             {
+                levelGen.OutpostsInChunk[(Vector2Int)pos].RemoveAll(e => e == null);
+
                 if (closestHuts.Count == 0) {
                     closestHuts = levelGen.OutpostsInChunk[(Vector2Int)pos];
                     closeHutPos = (Vector2Int)pos;

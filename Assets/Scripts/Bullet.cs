@@ -21,20 +21,32 @@ public class Bullet : MonoBehaviour
         transform.Translate(Vector3.right * Time.fixedDeltaTime * speed);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        IDamageable damageable = other.GetComponent<IDamageable>();
-        if (damageable != null && !other.gameObject.CompareTag(doNotCollideTag))
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        if (damageable != null && !collision.gameObject.CompareTag(doNotCollideTag))
         {
             damageable.TakeDamage(Damage);
 
-            if (--Pierce == 0)
+            if (--Pierce == 0 || collision.gameObject.CompareTag("Environment"))
             {
                 StartCoroutine(BulletDeath());
             }
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        if (damageable != null && !collision.gameObject.CompareTag(doNotCollideTag))
+        {
+            damageable.TakeDamage(Damage);
 
+            if (--Pierce == 0 || collision.gameObject.CompareTag("Environment"))
+            {
+                StartCoroutine(BulletDeath());
+            }
+        }
+    }
 
     IEnumerator DeathTimer(float time)
     {
