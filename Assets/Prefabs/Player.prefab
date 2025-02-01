@@ -320,8 +320,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f8208c6b045db4e815fac496e0aac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
+  maxHealth: 10
+  currentHealth: 3
 --- !u!58 &4047929028347772287
 CircleCollider2D:
   m_ObjectHideFlags: 0

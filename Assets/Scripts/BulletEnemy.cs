@@ -8,7 +8,7 @@ public class BulletEnemy : MonoBehaviour
     [SerializeField] float timeUntilDeath = 3f;
     [SerializeField] float deathTimer = 0.2f;
     [SerializeField] string doNotCollideTag = "Enemy";
-    public int Damage = 1;
+    int Damage = 1;
     public int Pierce = 1;
 
     private void Awake()
