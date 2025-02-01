@@ -29,7 +29,14 @@ public class EnemyBase : MonoBehaviour
         {
             yield return new WaitForSeconds(enemyAttack.fireRate + UnityEngine.Random.Range(0, enemyAttack.fireRateVariation));
 
-            enemyAttack.PerformAttack(transform, target);
+            if (enemyMovement != null && enemyMovement.hasSightOfPlayer)
+            {
+                enemyAttack.PerformAttack(transform, target);
+            }
+            else if (enemyMovement == null)
+            {
+                enemyAttack.PerformAttack(transform, target);
+            }
         }
     }
 }

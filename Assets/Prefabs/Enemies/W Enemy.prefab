@@ -155,9 +155,10 @@ MonoBehaviour:
   deceleration: 1.2
   stoppingDistance: 7
   retreatDistance: 5
-  avoidanceRadius: 3
-  avoidanceStrength: 3
+  avoidanceRadius: 1
+  avoidanceStrength: 1
   velocityClamp: 0.05
+  hasSightOfPlayer: 0
 --- !u!50 &8976293017804406044
 Rigidbody2D:
   serializedVersion: 4

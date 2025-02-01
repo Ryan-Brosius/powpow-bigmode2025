@@ -857,6 +857,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Director
       objectReference: {fileID: 0}
+    - target: {fileID: 1065320727330619261, guid: fcc48ccfe30120d4ea7e863049702849, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1488951125463561612, guid: fcc48ccfe30120d4ea7e863049702849, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
