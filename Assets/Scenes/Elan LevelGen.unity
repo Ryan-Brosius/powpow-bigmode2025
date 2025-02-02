@@ -448,6 +448,8 @@ MonoBehaviour:
     Prefab: {fileID: 5071264843070558052, guid: 2b71452c0d1e62d499440e6ccc3c05ae, type: 3}
   - Type: 2
     Prefab: {fileID: 5071264843070558052, guid: 2b71452c0d1e62d499440e6ccc3c05ae, type: 3}
+  turrets:
+  - {fileID: 6125961112584308440, guid: a830cf8c4761199468587a85acf9f5a5, type: 3}
   OnOutpostsUpdated:
     m_PersistentCalls:
       m_Calls: []
