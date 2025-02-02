@@ -1,10 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
-using UnityEditor;
-using Unity.VisualScripting.InputSystem;
-using System.Linq;
-using Unity.VisualScripting;
 
 public enum OutpostType
 {
@@ -27,7 +23,7 @@ public class ChunkManager : MonoBehaviour
 
     public const int CHUNK_SIZE = 8;
     private const int LOAD_DISTANCE = 25;
-    private const int SAFE_ZONE_CHUNKS = 4;
+    private const int SAFE_ZONE_CHUNKS = 3;
 
     private Dictionary<Vector2Int, GameObject> activeChunks = new Dictionary<Vector2Int, GameObject>();
     private Dictionary<Vector2Int, OutpostType> outpostTypes = new Dictionary<Vector2Int, OutpostType>();
