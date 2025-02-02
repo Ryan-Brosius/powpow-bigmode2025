@@ -1,20 +1,21 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private int health = 10;
+    [HideInInspector] public int Health => health;
     private bool decor;
     private GameObject ps;
-
     private List<EnemyHealth> connectedHuts = new();
-
     private Material defaultMat;
+
     private void Start()
     {
-        if(transform.childCount > 0)
+        if (transform.childCount > 0)
             defaultMat = transform.GetChild(0).GetComponent<SpriteRenderer>().material;
     }
 
@@ -28,11 +29,39 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public void AssignHut(List<EnemyHealth> connectedHuts2)
     {
-        foreach(var connectedHut in connectedHuts2)
+        connectedHuts.Clear();
+        foreach (var connectedHut in connectedHuts2)
         {
-            if (connectedHut != this)
+            if (connectedHut != null && connectedHut != this)
             {
                 connectedHuts.Add(connectedHut);
+            }
+        }
+    }
+
+    private void CleanupDestroyedConnections()
+    {
+        connectedHuts = connectedHuts.Where(hut => hut != null && hut.gameObject != null).ToList();
+    }
+
+    private void FlashWhite()
+    {
+        if (transform != null && transform.childCount > 0)
+        {
+            var childRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
+            if (childRenderer != null)
+            {
+                childRenderer.material = GameManager.Instance.WhiteMat;
+                GameManager.Instance.StartSlowMotionEffect();
+                var seq = DOTween.Sequence();
+                seq.Append(transform.GetChild(0).transform.DOShakePosition(0.25f, 0.5f));
+                seq.AppendCallback(() =>
+                {
+                    if (childRenderer != null && defaultMat != null)
+                    {
+                        childRenderer.material = defaultMat;
+                    }
+                });
             }
         }
     }
@@ -41,58 +70,74 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(bool conn, int damage)
     {
+        CleanupDestroyedConnections();
         health -= damage;
+        FlashWhite();
 
         if (conn)
         {
-            foreach (var connectedHut in connectedHuts)
+            foreach (var connectedHut in connectedHuts.ToList())
             {
-                connectedHut.TakeDamage(false, damage);
+                if (connectedHut != null && connectedHut.gameObject != null)
+                {
+                    connectedHut.TakeDamage(false, damage);
+                }
             }
         }
 
         if (health <= 0)
         {
             Die();
-        }
-        else
-        {
-            //bad code sorry, fix later
-            transform.GetChild(0).GetComponent<SpriteRenderer>().material = GameManager.Instance.WhiteMat;
-            GameManager.Instance.StartSlowMotionEffect();
-
-
-            var seq = DOTween.Sequence();
-            seq.Append(transform.GetChild(0).transform.DOShakePosition(0.25f, 0.5f));
-            seq.AppendCallback(() =>
+            foreach (var connectedHut in connectedHuts.ToList())
             {
-                transform.GetChild(0).GetComponent<SpriteRenderer>().material = defaultMat;
-            });
+                if (connectedHut != null && connectedHut.gameObject != null)
+                {
+                    connectedHut.Die();
+                }
+            }
         }
     }
 
     private void Die()
     {
-        
         if (decor)
         {
-            //deadEnemy.AddComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
-            var particles = Instantiate(ps, transform.position, Quaternion.identity);
-            Destroy(particles, 1f);
+            if (ps != null)
+            {
+                var particles = Instantiate(ps, transform.position, Quaternion.identity);
+                Destroy(particles, 1f);
+            }
         }
         else
         {
             var deadEnemy = new GameObject("Dead Enemy");
             deadEnemy.transform.position = transform.position;
-            deadEnemy.AddComponent<SpriteRenderer>().sprite = transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
-            deadEnemy.GetComponent<SpriteRenderer>().material = GameManager.Instance.WhiteMat;
-            deadEnemy.transform.DOScale(Vector2.zero, 0.5f);
 
-            Destroy(deadEnemy, 1f);
+            if (transform.childCount > 0)
+            {
+                var childSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
+                if (childSprite != null)
+                {
+                    var deadRenderer = deadEnemy.AddComponent<SpriteRenderer>();
+                    deadRenderer.sprite = childSprite.sprite;
+                    deadRenderer.material = GameManager.Instance.WhiteMat;
+                    deadEnemy.transform.DOScale(Vector2.zero, 0.5f);
+                    Destroy(deadEnemy, 1f);
+                }
+            }
         }
+
         GameManager.Instance.StartSlowMotionEffect();
+
+        foreach (var hut in connectedHuts.ToList())
+        {
+            if (hut != null)
+            {
+                hut.connectedHuts.Remove(this);
+            }
+        }
+        connectedHuts.Clear();
 
         Destroy(gameObject);
     }
 }
-
