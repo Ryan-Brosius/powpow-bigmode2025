@@ -100,11 +100,11 @@ public class EnemyDirector : MonoBehaviour
         }
         if (chosenEnemies.Count < smallestWave) chosenEnemies.Clear();
 
-        Vector3 spawnPos = GetSpawnPosition();
-
-        if (spawnPos != Vector3.zero)
+        foreach (EnemyData enemy in chosenEnemies)
         {
-            foreach (EnemyData enemy in chosenEnemies)
+            Vector3 spawnPos = GetSpawnPosition();
+
+            if (spawnPos != Vector3.zero)
             {
                 Vector3 spawnVariance = (new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), 0f)).normalized;
 
@@ -143,6 +143,7 @@ public class EnemyDirector : MonoBehaviour
             }
         }
 
+
         if (closestHuts.Count > 0)
         {
             closestHuts.Shuffle();
@@ -152,12 +153,17 @@ public class EnemyDirector : MonoBehaviour
             }
         }
 
+        return Vector3.zero;
+
+        // Enemies can only spawn at huts now
+
+        /*
         Vector3 randomPos = Random.insideUnitSphere;
         randomPos.z = 0;
         randomPos.Normalize();
         randomPos = randomPos * minSpawnDistance + (Random.Range(0, maxSpawnDistance - minSpawnDistance) * randomPos);
 
-        return randomPos + player.transform.position;
+        return randomPos + player.transform.position;*/
     }
 
     List<EnemyData> GetWave(List<EnemyData> affordableEnemies)
