@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private float slowMotionDuration = 0.05f;
     [SerializeField] private float slowMotionTimeScale = 0.25f;
+    [SerializeField] private Material whiteMat;
+    [HideInInspector] public Material WhiteMat => whiteMat;
     private float baseTimeScale = 1f;
 
     private static GameManager instance;
