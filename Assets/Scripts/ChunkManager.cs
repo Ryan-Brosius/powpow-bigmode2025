@@ -301,7 +301,7 @@ public class ChunkManager : MonoBehaviour
                 positions.Add(structure.transform.position);
             }
 
-            var newConnector = Instantiate(campConnector);
+            var newConnector = Instantiate(campConnector, chunkObject.transform);
             var lr = newConnector.GetComponent<LineRenderer>();
             lr.positionCount = positions.Count; // Set the correct number of positions
             lr.SetPositions(positions.ToArray());
