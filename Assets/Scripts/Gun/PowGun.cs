@@ -34,12 +34,21 @@ public class PowGun : MonoBehaviour
 
         foreach (var powData in bullets)
         {
-            for (int i = 0; i < powData.BulletsPerShot; i++)
+            // SPECIAL: Double Barrel
+            if (powData.BulletPierce == 1 && powData.BulletDamage == 2 && powData.BulletsPerShot == 2)
+            {
+                powData.BulletDamage = 3;
+                powData.BulletsPerShot = 3;
+            }
+
+                for (int i = 0; i < powData.BulletsPerShot; i++)
             {
                 FireBullet(powData);
-                if (powData.BulletsPerShot == 13)
+
+                // SPECIAL: Annihilator
+                if (powData.BulletsPerShot >= 10)
                 {
-                    for (int j = 0; j < 5; ++j) FireBullet(powData);
+                    for (int j = 0; j < 4; ++j) FireBullet(powData);
                 }
             }
 
@@ -48,9 +57,9 @@ public class PowGun : MonoBehaviour
                 yield return new WaitForSeconds(GunStats.TimeToFireMag / bullets.Count / 4f);
 
             }
-            else if (powData.BulletPierce == 13)
+            else if (powData.BulletPierce >= 10)
             {
-                yield return new WaitForSeconds(GunStats.TimeToFireMag / bullets.Count / 12f);
+                yield return new WaitForSeconds(GunStats.TimeToFireMag / bullets.Count / 10f);
             }
             else
             {
@@ -76,13 +85,27 @@ public class PowGun : MonoBehaviour
             bulletScript.Pierce = powData.BulletPierce;
             bulletScript.speed = baseBulletSpeed + powData.BulletPierce;
         }
-        if (powData.BulletPierce == 13) bulletScript.speed = 100f;
-        if (powData.BulletDamage == 13)
+        // SPECIAL: Railgun
+        if (powData.BulletPierce >= 10) bulletScript.speed = 100f;
+        // SPECIAL: Quantum Cannon
+        if (powData.BulletDamage >= 10)
         {
             bulletScript.timeUntilDeath = 10f;
             bullet.transform.localScale *= 5;
             bulletScript.Pierce = 99;
             bulletScript.Damage = 20;
+        }
+        // SPECIAL: Double Barrel
+        if (powData.BulletPierce == 1 && powData.BulletDamage == 3 && powData.BulletsPerShot == 3)
+        {
+            bulletScript.speed = baseBulletSpeed = 16f;
+            bulletScript.StartCoroutine(bulletScript.DeathTimer(0.3f));
+        }
+        // SPECIAL: Sonic Shot
+        if (powData.BulletPierce == 2 && powData.BulletDamage == 2 && powData.BulletsPerShot == 1)
+        {
+            bulletScript.speed = 50f;
+            bulletScript.Pierce = 5;
         }
         if (powData.BulletPierce != 13) ApplyShotgunSpread(bullet, bullets.Count == 5 ? 4 : powData.BulletsPerShot);
     }
@@ -92,7 +115,7 @@ public class PowGun : MonoBehaviour
     {
         float spreadFactor = Mathf.Clamp(bulletsPerShot * GunStats.SpreadMultiplier, 0f, 1f);
         float spreadAngle = GunStats.MaxSpreadAngle * spreadFactor;
-        if (bulletsPerShot == 13) spreadAngle = 360f;
+        if (bulletsPerShot >= 10) spreadAngle = 360f;
 
         float randomAngle = Random.Range(-spreadAngle, spreadAngle);
         bullet.transform.Rotate(0, 0, randomAngle);

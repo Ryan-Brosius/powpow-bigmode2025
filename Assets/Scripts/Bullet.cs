@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] public float speed = 10f;
     [SerializeField] public float timeUntilDeath = 5f;
-    [SerializeField] float deathTimer = 0.4f;
+    [SerializeField] public float deathTimer = 0.4f;
     [SerializeField] string doNotCollideTag = "Player";
     public int Damage { get; set; }
     public int Pierce { get; set; }
@@ -48,7 +48,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    IEnumerator DeathTimer(float time)
+    public IEnumerator DeathTimer(float time)
     {
         yield return new WaitForSeconds(time);
         StartCoroutine(BulletDeath());

@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f0580e9c02d6e47bd974fec7e22efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 8
   timeUntilDeath: 3
   deathTimer: 0.2
   doNotCollideTag: Enemy

@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunStats: {fileID: 11400000, guid: fdb01c95a32abaf41b6ba96d475c364f, type: 2}
   firePoint: {fileID: 8866265718905193300}
-  baseBulletSpeed: 8
+  baseBulletSpeed: 12
 --- !u!1 &2085424898115202813
 GameObject:
   m_ObjectHideFlags: 0
