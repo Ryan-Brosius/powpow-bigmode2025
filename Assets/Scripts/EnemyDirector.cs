@@ -9,6 +9,7 @@ public class EnemyData
     [Header("Director Spawn Settings")]
     [SerializeField] public GameObject enemyPrefab;
     [SerializeField] public int cost;
+    [SerializeField] public OutpostType type;
 }
 
 [CreateAssetMenu(fileName = "EnemyData", menuName = "Enemy/Enemy Database")]
@@ -58,19 +59,19 @@ public class EnemyDirector : MonoBehaviour
 
     void determineIntensity()
     {
+        intensity = PowerGameState.Instance.PowString.Length * .33f;
+
         if (enemiesSpawned.Count >= maxEnemiesAtATime)
         {
-            intensity = 0.3f;
+            intensity *= 0.3f;
             return;
         }
 
         if (spawnAtHuts)
         {
-            intensity = 2f;
+            intensity *= 2f;
             return;
         }
-
-        intensity = 1f;
     }
 
     IEnumerator SpawnLoop()
@@ -90,6 +91,8 @@ public class EnemyDirector : MonoBehaviour
 
         List<EnemyData> affordableEnemies = enemyDatabase.enemyList.FindAll(e => e.cost <= points).OrderByDescending(e => e.cost).ToList();
         if (affordableEnemies.Count == 0) return;
+        (_, OutpostType outpostType) = GetSpawnPosition();
+        affordableEnemies = enemyDatabase.enemyList.FindAll(e => e.type == outpostType);
 
         List<EnemyData> chosenEnemies = new List<EnemyData>();
         int tries = 0;
@@ -102,7 +105,7 @@ public class EnemyDirector : MonoBehaviour
 
         foreach (EnemyData enemy in chosenEnemies)
         {
-            Vector3 spawnPos = GetSpawnPosition();
+            (Vector3 spawnPos, _) = GetSpawnPosition();
 
             if (spawnPos != Vector3.zero)
             {
@@ -115,11 +118,12 @@ public class EnemyDirector : MonoBehaviour
         }
     }
 
-    Vector3 GetSpawnPosition()
+    private (Vector3, OutpostType) GetSpawnPosition()
     {
 
         List<GameObject> closestHuts = new List<GameObject>();
         Vector2Int closeHutPos = Vector2Int.zero;
+        OutpostType outpostData = OutpostType.P;
         foreach (var (outpost, pos) in levelGen.ClosestOutposts)
         {
             if (pos != null && levelGen.OutpostsInChunk.ContainsKey((Vector2Int)pos))
@@ -137,6 +141,7 @@ public class EnemyDirector : MonoBehaviour
 
                 if (outpostDistance < prevOutpostDistance)
                 {
+                    outpostData = outpost;
                     closestHuts = levelGen.OutpostsInChunk[(Vector2Int)pos];
                     closeHutPos = (Vector2Int)pos;
                 }
@@ -149,11 +154,11 @@ public class EnemyDirector : MonoBehaviour
             closestHuts.Shuffle();
             foreach (var hut in closestHuts)
             {
-                if (IsTransformInView(Camera.main, hut.transform)) return hut.transform.position - new Vector3(0.0f, 1.6f, 0.0f);
+                if (IsTransformInView(Camera.main, hut.transform)) return (hut.transform.position - new Vector3(0.0f, 1.6f, 0.0f), outpostData);
             }
         }
 
-        return Vector3.zero;
+        return (Vector3.zero, OutpostType.P);
 
         // Enemies can only spawn at huts now
 
