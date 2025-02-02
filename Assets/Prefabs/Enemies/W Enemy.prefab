@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1882283674531320664, guid: 6064e8feed57de24ab24de578f8a0afd, type: 3}
-  fireRate: 1
+  fireRate: 3
   bulletCount: 3
   spreadAngle: 10
   distanceBetweenShots: 0

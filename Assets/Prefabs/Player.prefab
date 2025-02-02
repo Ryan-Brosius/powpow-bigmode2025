@@ -385,17 +385,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d201ae6e8ce9ff4a9667fd5f6786521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveStats: {fileID: 11400000, guid: 5f6fff7e8c7652144a680d4cd8cd8b11, type: 2}
+  maxSpeed: 10
+  acceleration: 65
+  deceleration: 45
+  velocityPower: 0.96
+  frictionAmount: 0.2
+  rollSpeed: 35
+  rollDuration: 0.2
+  rollCooldown: 5
+  rollSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxRollCharges: 1
+  currentRollCharges: 1
+  rollUI: {fileID: 0}
   playerHealthScript: {fileID: 283307062300830351}
   changeSpot:
     m_PersistentCalls:
       m_Calls: []
-  rollUI: {fileID: 0}
-  rollSpeed: 15
-  rollDuration: 0.2
-  rollCooldown: 5
-  maxRollCharges: 1
-  currentRollCharges: 1
 --- !u!114 &283307062300830351
 MonoBehaviour:
   m_ObjectHideFlags: 0

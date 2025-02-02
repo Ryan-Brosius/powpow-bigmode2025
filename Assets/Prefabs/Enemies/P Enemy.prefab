@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65962d43753b0744686d007ad29c1655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 2
   LetterToSpawn: {fileID: 0}
 --- !u!114 &572062542128671078
 MonoBehaviour:
@@ -167,7 +167,7 @@ MonoBehaviour:
   bulletCount: 1
   spreadAngle: 0
   distanceBetweenShots: 0
-  fireRateVariation: 0.1
+  fireRateVariation: 0.5
   extraShotsInARow: 0
   extraShotFireRate: 0.1
   canOnlyAttackWithinCamera: 1
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fb54a605ce0f141bd2f015a6cac9db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 2
+  maxSpeed: 3
   acceleration: 5
   deceleration: 1.2
   stoppingDistance: 7

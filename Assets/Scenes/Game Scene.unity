@@ -230,11 +230,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 283307062300830351, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
       propertyPath: maxHealth
-      value: 999
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 283307062300830351, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
       propertyPath: currentHealth
-      value: 999
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2194644985254418426, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
       propertyPath: m_LocalPosition.x
