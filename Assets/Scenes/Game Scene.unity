@@ -691,6 +691,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2382452103342630360, guid: fcc48ccfe30120d4ea7e863049702849, type: 3}
+      propertyPath: enemyDatabase
+      value: 
+      objectReference: {fileID: 11400000, guid: a872a77a07eca9b488a6ebda4a0f5513, type: 2}
+    - target: {fileID: 2382452103342630360, guid: fcc48ccfe30120d4ea7e863049702849, type: 3}
       propertyPath: pointsPerSecond
       value: 2
       objectReference: {fileID: 0}

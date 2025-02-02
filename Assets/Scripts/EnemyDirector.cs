@@ -3,21 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class EnemyData
-{
-    [Header("Director Spawn Settings")]
-    [SerializeField] public GameObject enemyPrefab;
-    [SerializeField] public int cost;
-    [SerializeField] public OutpostType type;
-}
-
-[CreateAssetMenu(fileName = "EnemyData", menuName = "Enemy/Enemy Database")]
-public class EnemyDatabase : ScriptableObject
-{
-    public List<EnemyData> enemyList = new List<EnemyData>();
-}
-
 public class EnemyDirector : MonoBehaviour
 {
     [Header("Enemy Settings")]
