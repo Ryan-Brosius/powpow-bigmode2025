@@ -17,6 +17,7 @@ public class ChunkManager : MonoBehaviour
 {
     [SerializeField] private GameObject blockPrefab;
 
+    [SerializeField] private GameObject campConnector; 
     [SerializeField] private List<Sprite> floorSprites = new();
     [SerializeField] private List<Sprite> decorSprites = new();
     [SerializeField] private List<GameObject> decorParticles = new();
@@ -205,28 +206,26 @@ public class ChunkManager : MonoBehaviour
             OutpostType outpostType = DetermineOutpostType(chunkCoord);
             outpostTypes[chunkCoord] = outpostType;
 
-            // Define the grid size for hut placement
-            int gridSize = 4; // Dividing the chunk into a 4x4 grid for hut placement
-            var outPostGridTaken = new HashSet<Vector2Int>(); // Changed to HashSet
-            int outpostCount = random.Next(1, 3); // Reduced max count to prevent overcrowding
+            int gridSize = 4;
+            var outPostGridTaken = new HashSet<Vector2Int>();
+            // Increased minimum count to 2 to ensure multiple huts
+            int outpostCount = random.Next(2, 4);
             var outpostPrefab = outposts[Random.Range(0, outposts.Count - 1)].Prefab;
-            List<EnemyHealth> allHuts = new();
+            List<EnemyHealth> allStructures = new(); // Renamed to include both huts and turrets
 
+            // Generate huts first
             for (int i = 0; i < outpostCount; i++)
             {
                 int maxHutAttemps = 10;
                 int hutAttempts = 0;
-
                 while (hutAttempts < maxHutAttemps)
                 {
-                    // Generate grid position
                     int gridX = random.Next(0, gridSize);
                     int gridY = random.Next(0, gridSize);
                     var gridPos = new Vector2Int(gridX, gridY);
 
                     if (IsLargeAreaClear(gridPos, outPostGridTaken))
                     {
-                        // Each grid cell is 2x2 units (CHUNK_SIZE / gridSize)
                         float cellSize = CHUNK_SIZE / (float)gridSize;
                         Vector3 localPos = new Vector3(
                             gridX * cellSize + cellSize / 2,
@@ -235,14 +234,14 @@ public class ChunkManager : MonoBehaviour
                         );
 
                         GameObject hut = Instantiate(outpostPrefab, chunkObject.transform);
-                        allHuts.Add(hut.GetComponent<EnemyHealth>());
+                        var hutHealth = hut.GetComponent<EnemyHealth>();
+                        allStructures.Add(hutHealth);
+
                         hut.transform.localPosition = localPos;
                         OutpostsInChunk[chunkCoord].Add(hut);
                         hut.transform.GetChild(0).GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
-                        //hut.GetComponent<SpriteRenderer>().sprite = outposts.Where(w => w.Type.Equals(outpostType)).ToList()[0].Sprite;
 
                         outPostGridTaken.Add(gridPos);
-
                         int blockX = Mathf.FloorToInt(localPos.x);
                         int blockY = Mathf.FloorToInt(localPos.y);
                         takenBlocks.Add(new Vector2Int(blockX, blockY));
@@ -255,42 +254,57 @@ public class ChunkManager : MonoBehaviour
                 }
             }
 
-            var hutsCopy = new List<EnemyHealth>(allHuts);
-            foreach (var hut in hutsCopy)
+            // Generate turrets and add them to the network
+            int turretCount = random.Next(1, 3);
+            for (int i = 0; i < turretCount; i++)
             {
-                hut.AssignHut(allHuts);
-            }
-
-            int maxTurretAttemps = 10;
-            int turretAttempts = 0;
-
-            while (turretAttempts < maxTurretAttemps)
-            {
-                int gridX = random.Next(0, gridSize);
-                int gridY = random.Next(0, gridSize);
-                var gridPos = new Vector2Int(gridX, gridY);
-
-                if (!outPostGridTaken.Contains(gridPos))
+                int maxTurretAttemps = 10;
+                int turretAttempts = 0;
+                while (turretAttempts < maxTurretAttemps)
                 {
-                    float cellSize = CHUNK_SIZE / (float)gridSize;
-                    Vector3 localPos = new Vector3(
-                        gridX * cellSize + cellSize / 2,
-                        gridY * cellSize + cellSize / 2,
-                        0
-                    );
+                    int gridX = random.Next(0, gridSize);
+                    int gridY = random.Next(0, gridSize);
+                    var gridPos = new Vector2Int(gridX, gridY);
 
-                    GameObject turret = Instantiate(turrets[Random.Range(0, turrets.Count)], chunkObject.transform);
-                    turret.transform.localPosition = localPos;
+                    if (!outPostGridTaken.Contains(gridPos))
+                    {
+                        float cellSize = CHUNK_SIZE / (float)gridSize;
+                        Vector3 localPos = new Vector3(
+                            gridX * cellSize + cellSize / 2,
+                            gridY * cellSize + cellSize / 2,
+                            0
+                        );
 
-                    outPostGridTaken.Add(gridPos);
+                        GameObject turret = Instantiate(turrets[Random.Range(0, turrets.Count)], chunkObject.transform);
+                        var turretHealth = turret.GetComponent<EnemyHealth>();
+                        allStructures.Add(turretHealth); // Add turret to the network
 
-                    int blockX = Mathf.FloorToInt(localPos.x);
-                    int blockY = Mathf.FloorToInt(localPos.y);
-                    takenBlocks.Add(new Vector2Int(blockX, blockY));
-                    break;
+                        turret.transform.localPosition = localPos;
+                        outPostGridTaken.Add(gridPos);
+
+                        int blockX = Mathf.FloorToInt(localPos.x);
+                        int blockY = Mathf.FloorToInt(localPos.y);
+                        takenBlocks.Add(new Vector2Int(blockX, blockY));
+                        break;
+                    }
+                    turretAttempts++;
                 }
-                turretAttempts++;
             }
+
+            // Assign all structures to the network and create connections
+            var structuresCopy = new List<EnemyHealth>(allStructures);
+            var positions = new List<Vector3>();
+
+            foreach (var structure in structuresCopy)
+            {
+                structure.AssignHut(allStructures); // Connect both huts and turrets
+                positions.Add(structure.transform.position);
+            }
+
+            var newConnector = Instantiate(campConnector);
+            var lr = newConnector.GetComponent<LineRenderer>();
+            lr.positionCount = positions.Count; // Set the correct number of positions
+            lr.SetPositions(positions.ToArray());
         }
 
         int floorTileCount = random.Next(1, 4); 
