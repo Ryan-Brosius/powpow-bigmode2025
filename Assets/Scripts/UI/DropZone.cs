@@ -122,7 +122,9 @@ public class DropZone : MonoBehaviour, IDropHandler
             case "P": return 0;
             case "O": return 1;
             case "W": return 2;
-            default: return 3;
+            case "E": return 3;
+            case "R": return 4;
+            default: return 5;
         }
     }
 }

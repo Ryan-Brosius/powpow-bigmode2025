@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6042081260752921072}
   - component: {fileID: 8839289390898679780}
   - component: {fileID: 5649329797556681945}
+  - component: {fileID: 3029207199036777330}
   m_Layer: 5
   m_Name: Letter_R
   m_TagString: Untagged
@@ -85,6 +86,20 @@ CanvasGroup:
   m_GameObject: {fileID: 5695598716498545165}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3029207199036777330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5695598716498545165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1750c9c3a5690324a96af6f467805dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalDropZone: {fileID: 0}
+  letterValue: 82
