@@ -38,6 +38,8 @@ public class EnemyDirector : MonoBehaviour
         CheckHutInView();
         determineIntensity();
         points += pointsPerSecond * Time.deltaTime * intensity;
+        maxEnemiesAtATime = PowerGameState.Instance.PowString.Length + 3;
+        maxStoredPoints = PowerGameState.Instance.PowString.Length * 10;
 
         if (points > maxStoredPoints) points = maxStoredPoints;
     }
@@ -48,7 +50,7 @@ public class EnemyDirector : MonoBehaviour
 
         if (enemiesSpawned.Count >= maxEnemiesAtATime)
         {
-            intensity *= 0.3f;
+            intensity *= 0.33f;
             return;
         }
 
