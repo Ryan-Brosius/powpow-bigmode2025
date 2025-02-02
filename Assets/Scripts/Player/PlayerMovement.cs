@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] PlayerMovementStats MoveStats;
+    [SerializeField] PlayerHealth playerHealthScript;
 
     private Rigidbody2D rb;
 
@@ -51,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
     {
         playerControls = new Controls();
         rb = GetComponent<Rigidbody2D>();
+        playerHealthScript = GetComponent<PlayerHealth>();
+
         if (GameObject.Find("Roll Case")) rollUI = GameObject.Find("Roll Case").GetComponent<RollCase>();
         if (rollUI) rollUI.InitializeRollUI(maxRollCharges);
         InitializeSingleton();
@@ -129,6 +132,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Roll()
     {
+        if (playerHealthScript) playerHealthScript.StartCoroutine("ImmunityFrame");
+
         currentRollCharges--;
         if (rollUI) rollUI.UpdateCurrentRolls(currentRollCharges);
 
