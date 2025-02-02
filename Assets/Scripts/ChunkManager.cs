@@ -19,6 +19,7 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private List<Sprite> floorSprites = new();
     [SerializeField] private List<Sprite> decorSprites = new();
     [SerializeField] private List<Outpost> outposts = new();
+    [SerializeField] private List<GameObject> turrets = new();
 
     public const int CHUNK_SIZE = 8;
     private const int LOAD_DISTANCE = 32;
@@ -248,6 +249,37 @@ public class ChunkManager : MonoBehaviour
                     }
                     hutAttempts++;
                 }
+            }
+
+            int maxTurretAttemps = 10;
+            int turretAttempts = 0;
+
+            while (turretAttempts < maxTurretAttemps)
+            {
+                int gridX = random.Next(0, gridSize);
+                int gridY = random.Next(0, gridSize);
+                var gridPos = new Vector2Int(gridX, gridY);
+
+                if (!outPostGridTaken.Contains(gridPos))
+                {
+                    float cellSize = CHUNK_SIZE / (float)gridSize;
+                    Vector3 localPos = new Vector3(
+                        gridX * cellSize + cellSize / 2,
+                        gridY * cellSize + cellSize / 2,
+                        0
+                    );
+
+                    GameObject turret = Instantiate(turrets[Random.Range(0, turrets.Count)], chunkObject.transform);
+                    turret.transform.localPosition = localPos;
+
+                    outPostGridTaken.Add(gridPos);
+
+                    int blockX = Mathf.FloorToInt(localPos.x);
+                    int blockY = Mathf.FloorToInt(localPos.y);
+                    takenBlocks.Add(new Vector2Int(blockX, blockY));
+                    break;
+                }
+                turretAttempts++;
             }
         }
 

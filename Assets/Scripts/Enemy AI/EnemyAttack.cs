@@ -49,7 +49,7 @@ public class EnemyAttack : MonoBehaviour
                 float spread = spreadAngle * (j - (bulletCount - 1) / 2);
                 Quaternion rotation = Quaternion.Euler(0, 0, angle + spread);
 
-                Vector3 extraDistance = bulletCount <= 1 ? Vector3.zero : Mathf.Lerp(-distanceBetweenShots / 2, distanceBetweenShots / 2, i / (bulletCount - 1)) * (rotation * Vector3.up);
+                Vector3 extraDistance = bulletCount <= 1 ? Vector3.zero : Mathf.Lerp(-distanceBetweenShots / 2, distanceBetweenShots / 2, j / (bulletCount - 1)) * (rotation * Vector3.up);
 
                 Instantiate(bulletPrefab, firePoint.position + extraDistance, rotation);
             }
