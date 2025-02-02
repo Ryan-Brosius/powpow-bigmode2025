@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5437163788443151668}
   - component: {fileID: 7327266950768614908}
   - component: {fileID: 3594488620429756318}
+  - component: {fileID: 8376600990371821822}
+  - component: {fileID: 3073946218316710207}
   m_Layer: 5
   m_Name: Letter_E
   m_TagString: Untagged
@@ -75,3 +77,29 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8376600990371821822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8805531143759335246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1750c9c3a5690324a96af6f467805dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalDropZone: {fileID: 0}
+  letterValue: 69
+--- !u!225 &3073946218316710207
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8805531143759335246}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

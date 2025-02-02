@@ -60,7 +60,7 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
 
-        PowWordUIManager.Instance.OnChange();
+        if (PowWordUIManager.Instance) PowWordUIManager.Instance.OnChange();
     }
 
     /*
