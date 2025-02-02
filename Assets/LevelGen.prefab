@@ -64,6 +64,10 @@ MonoBehaviour:
     Prefab: {fileID: 5071264843070558052, guid: 2b71452c0d1e62d499440e6ccc3c05ae, type: 3}
   turrets:
   - {fileID: 6125961112584308440, guid: a830cf8c4761199468587a85acf9f5a5, type: 3}
+  letterPrefabs:
+  - {fileID: 2077016751834194818, guid: 32ca54331107f1d4cbff4140066a01ff, type: 3}
+  - {fileID: 952848857904503517, guid: 06be67464ac5d97409a3668eb098f3b0, type: 3}
+  - {fileID: 6536241610755590889, guid: 757c99e432728624a9312a0a0aad0479, type: 3}
   OnOutpostsUpdated:
     m_PersistentCalls:
       m_Calls: []

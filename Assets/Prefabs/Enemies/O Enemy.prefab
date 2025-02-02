@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65962d43753b0744686d007ad29c1655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  health: 1
   LetterToSpawn: {fileID: 0}
 --- !u!114 &1859165393769433667
 MonoBehaviour:

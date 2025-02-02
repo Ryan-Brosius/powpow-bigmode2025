@@ -44,13 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9509bfb36a3815c4eab6466b2aa03039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDatabase: {fileID: 11400000, guid: 7c3517fa26bdd2e4cba5df88b326c41b, type: 2}
+  enemyDatabase: {fileID: 11400000, guid: a872a77a07eca9b488a6ebda4a0f5513, type: 2}
   spawnInterval: 1
-  pointsPerSecond: 1
+  pointsPerSecond: 2
   maxStoredPoints: 30
   minSpawnDistance: 10
   maxSpawnDistance: 20
-  maxEnemiesAtATime: 5
+  maxEnemiesAtATime: 20
   smallestWave: 3
   enemyDespawnDistance: 30
   spawnAtHuts: 1

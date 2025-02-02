@@ -26,7 +26,8 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private List<GameObject> letterPrefabs = new();
 
     public const int CHUNK_SIZE = 8;
-    private const int LOAD_DISTANCE = 32;
+    private const int LOAD_DISTANCE = 25;
+    private const int SAFE_ZONE_CHUNKS = 4;
 
     private Dictionary<Vector2Int, GameObject> activeChunks = new Dictionary<Vector2Int, GameObject>();
     private Dictionary<Vector2Int, OutpostType> outpostTypes = new Dictionary<Vector2Int, OutpostType>();
@@ -39,6 +40,7 @@ public class ChunkManager : MonoBehaviour
 
     private int worldSeed;
     private Vector2Int currentPlayerChunk;
+    private Vector2Int startingChunk = Vector2Int.zero;
 
     private static ChunkManager instance;
     public static ChunkManager Instance => instance;
@@ -198,8 +200,12 @@ public class ChunkManager : MonoBehaviour
         Vector2Int chunkWorldPos = chunkCoord * CHUNK_SIZE;
         chunkObject.transform.position = new Vector3(chunkWorldPos.x, chunkWorldPos.y, 0);
 
-        bool shouldHaveBlocks = random.Next(0, 10) == 0;
-        var takenBlocks = new HashSet<Vector2Int>(); // Changed to HashSet for better performance
+        // Check if chunk is within safe zone
+        bool isInSafeZone = Mathf.Abs(chunkCoord.x - startingChunk.x) <= SAFE_ZONE_CHUNKS &&
+                           Mathf.Abs(chunkCoord.y - startingChunk.y) <= SAFE_ZONE_CHUNKS;
+
+        bool shouldHaveBlocks = random.Next(0, 10) == 0 && !isInSafeZone; // Don't spawn structures in safe zone
+        var takenBlocks = new HashSet<Vector2Int>();
 
         if (shouldHaveBlocks)
         {
@@ -209,12 +215,11 @@ public class ChunkManager : MonoBehaviour
 
             int gridSize = 4;
             var outPostGridTaken = new HashSet<Vector2Int>();
-            // Increased minimum count to 2 to ensure multiple huts
             int outpostCount = random.Next(2, 4);
             var outpostPrefab = outposts[Random.Range(0, outposts.Count - 1)].Prefab;
-            List<EnemyHealth> allStructures = new(); // Renamed to include both huts and turrets
+            List<EnemyHealth> allStructures = new();
 
-            // Generate huts first
+            // Generate huts
             for (int i = 0; i < outpostCount; i++)
             {
                 int maxHutAttemps = 10;
@@ -255,7 +260,7 @@ public class ChunkManager : MonoBehaviour
                 }
             }
 
-            // Generate turrets and add them to the network
+            // Generate turrets
             int turretCount = random.Next(1, 3);
             for (int i = 0; i < turretCount; i++)
             {
@@ -278,7 +283,7 @@ public class ChunkManager : MonoBehaviour
 
                         GameObject turret = Instantiate(turrets[Random.Range(0, turrets.Count)], chunkObject.transform);
                         var turretHealth = turret.GetComponent<EnemyHealth>();
-                        allStructures.Add(turretHealth); // Add turret to the network
+                        allStructures.Add(turretHealth);
 
                         turret.transform.localPosition = localPos;
                         outPostGridTaken.Add(gridPos);
@@ -292,27 +297,29 @@ public class ChunkManager : MonoBehaviour
                 }
             }
 
-            // Assign all structures to the network and create connections
-            var structuresCopy = new List<EnemyHealth>(allStructures);
-            var positions = new List<Vector3>();
-
-            foreach (var structure in structuresCopy)
+            // Create structure network
+            if (allStructures.Count > 0)
             {
-                structure.AssignHut(allStructures); // Connect both huts and turrets
-                positions.Add(structure.transform.position);
-                structure.LetterToSpawn = letterPrefabs[((int)outpostType)];
-            }
+                var positions = new List<Vector3>();
+                foreach (var structure in allStructures)
+                {
+                    structure.AssignHut(allStructures);
+                    positions.Add(structure.transform.position);
+                    structure.LetterToSpawn = letterPrefabs[((int)outpostType)];
+                }
 
-            var newConnector = Instantiate(campConnector, chunkObject.transform);
-            var lr = newConnector.GetComponent<LineRenderer>();
-            lr.positionCount = positions.Count; // Set the correct number of positions
-            lr.SetPositions(positions.ToArray());
+                var newConnector = Instantiate(campConnector, chunkObject.transform);
+                var lr = newConnector.GetComponent<LineRenderer>();
+                lr.positionCount = positions.Count;
+                lr.SetPositions(positions.ToArray());
+            }
         }
 
-        int floorTileCount = random.Next(1, 4); 
+        // Generate floor tiles and decorations
+        int floorTileCount = random.Next(1, 4);
         for (int i = 0; i < floorTileCount; i++)
         {
-            int maxAttempts = 10; 
+            int maxAttempts = 10;
             int attempts = 0;
 
             while (attempts < maxAttempts)
@@ -338,7 +345,7 @@ public class ChunkManager : MonoBehaviour
                         var r2 = random.Next(0, decorSprites.Count);
                         spriteRenderer.sprite = decorSprites[r2];
                         var rb = obj.AddComponent<Rigidbody2D>();
-                        
+
                         rb.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
 
                         var collider = obj.AddComponent<BoxCollider2D>();
@@ -357,7 +364,6 @@ public class ChunkManager : MonoBehaviour
 
         activeChunks.Add(chunkCoord, chunkObject);
     }
-
     public Color OutpostToColor(OutpostType type)
     {
         switch (type)
