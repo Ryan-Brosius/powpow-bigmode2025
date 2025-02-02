@@ -25,7 +25,7 @@ public class LetterPickup : MonoBehaviour
         transform.position = new Vector3(startPosition.x, startPosition.y + newY, startPosition.z);
 
         // Rotate the object around the Y-axis
-        transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+        //transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

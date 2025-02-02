@@ -9,6 +9,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private bool decor;
     private GameObject ps;
 
+    private List<EnemyHealth> connectedHuts = new();
+
     private Material defaultMat;
     private void Start()
     {
@@ -24,9 +26,30 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         ps = newPs;
     }
 
-    public void TakeDamage(int damage)
+    public void AssignHut(List<EnemyHealth> connectedHuts2)
+    {
+        foreach(var connectedHut in connectedHuts2)
+        {
+            if (connectedHut != this)
+            {
+                connectedHuts.Add(connectedHut);
+            }
+        }
+    }
+
+    public void TakeDamage(int damage) => TakeDamage(true, damage);
+
+    public void TakeDamage(bool conn, int damage)
     {
         health -= damage;
+
+        if (conn)
+        {
+            foreach (var connectedHut in connectedHuts)
+            {
+                connectedHut.TakeDamage(false, damage);
+            }
+        }
 
         if (health <= 0)
         {

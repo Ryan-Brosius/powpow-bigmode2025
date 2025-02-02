@@ -210,6 +210,7 @@ public class ChunkManager : MonoBehaviour
             var outPostGridTaken = new HashSet<Vector2Int>(); // Changed to HashSet
             int outpostCount = random.Next(1, 3); // Reduced max count to prevent overcrowding
             var outpostPrefab = outposts[Random.Range(0, outposts.Count - 1)].Prefab;
+            List<EnemyHealth> allHuts = new();
 
             for (int i = 0; i < outpostCount; i++)
             {
@@ -234,9 +235,10 @@ public class ChunkManager : MonoBehaviour
                         );
 
                         GameObject hut = Instantiate(outpostPrefab, chunkObject.transform);
+                        allHuts.Add(hut.GetComponent<EnemyHealth>());
                         hut.transform.localPosition = localPos;
                         OutpostsInChunk[chunkCoord].Add(hut);
-                        //hut.GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
+                        hut.transform.GetChild(0).GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
                         //hut.GetComponent<SpriteRenderer>().sprite = outposts.Where(w => w.Type.Equals(outpostType)).ToList()[0].Sprite;
 
                         outPostGridTaken.Add(gridPos);
@@ -251,6 +253,12 @@ public class ChunkManager : MonoBehaviour
                     }
                     hutAttempts++;
                 }
+            }
+
+            var hutsCopy = new List<EnemyHealth>(allHuts);
+            foreach (var hut in hutsCopy)
+            {
+                hut.AssignHut(allHuts);
             }
 
             int maxTurretAttemps = 10;
