@@ -38,9 +38,6 @@ public class CameraController : MonoBehaviour
 
     public void ShakeCamera()
     {
-        transform.DOShakePosition(0.1f, 0.15f, 6).OnComplete(() =>
-        {
-            transform.position = Vector2.zero;
-        });
+        transform.GetChild(0).DOShakePosition(0.1f, 0.05f, 6);
     }
 }

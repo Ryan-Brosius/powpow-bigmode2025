@@ -457,6 +457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slowMotionDuration: 0.05
   slowMotionTimeScale: 0.25
+  whiteMat: {fileID: 2100000, guid: 6986f1ee68db6e148b7d64559deaabe4, type: 2}
 --- !u!1 &7558168423493966503
 GameObject:
   m_ObjectHideFlags: 0

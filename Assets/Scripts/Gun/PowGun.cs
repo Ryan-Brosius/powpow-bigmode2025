@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PowGun : MonoBehaviour
@@ -26,6 +27,8 @@ public class PowGun : MonoBehaviour
 
     private IEnumerator FireBullets()
     {
+        CameraController.Instance.ShakeCamera();
+
         isShooting = true;
 
         foreach (var powData in bullets)
@@ -61,6 +64,7 @@ public class PowGun : MonoBehaviour
     private void FireBullet(PowData powData)
     {
         GameObject bullet = Instantiate(GunStats.BulletPrefab, firePoint.position, firePoint.rotation);
+        Destroy(bullet, 4f);
 
         //bullet.transform.localScale = new Vector3(bullet.transform.localScale.x * powData.BulletSize, bullet.transform.localScale.y * powData.BulletSize, 1);
 

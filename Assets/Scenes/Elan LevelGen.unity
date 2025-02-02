@@ -348,10 +348,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2471852689545078126, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: whiteMat
-      value: 
-      objectReference: {fileID: 2100000, guid: 6986f1ee68db6e148b7d64559deaabe4, type: 2}
     - target: {fileID: 6016946602577464097, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
       propertyPath: m_Name
       value: Player
@@ -442,6 +438,9 @@ MonoBehaviour:
   decorSprites:
   - {fileID: 21300000, guid: 2e60e4a667e2cef49a15f56e1573e223, type: 3}
   - {fileID: 21300000, guid: 9a94f10fd61241a4989bd51360f6bdc0, type: 3}
+  decorParticles:
+  - {fileID: 1780692216498471699, guid: e009e3fe9f3ecc34fac9f8c18fee3ee9, type: 3}
+  - {fileID: 929790982751172487, guid: 03784a3e2d24358498b448a97fbc2947, type: 3}
   outposts:
   - Type: 0
     Prefab: {fileID: 5071264843070558052, guid: 2b71452c0d1e62d499440e6ccc3c05ae, type: 3}

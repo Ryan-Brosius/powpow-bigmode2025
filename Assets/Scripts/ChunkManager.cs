@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using Unity.VisualScripting.InputSystem;
 using System.Linq;
+using Unity.VisualScripting;
 
 public enum OutpostType
 {
@@ -18,6 +19,7 @@ public class ChunkManager : MonoBehaviour
 
     [SerializeField] private List<Sprite> floorSprites = new();
     [SerializeField] private List<Sprite> decorSprites = new();
+    [SerializeField] private List<GameObject> decorParticles = new();
     [SerializeField] private List<Outpost> outposts = new();
 
     public const int CHUNK_SIZE = 8;
@@ -264,24 +266,33 @@ public class ChunkManager : MonoBehaviour
                 {
                     Vector3 localPos = new Vector3(newPos.x, newPos.y, 0);
 
-                    if (random.Next(0, 2) == 1)
+                    GameObject obj = Instantiate(blockPrefab, chunkObject.transform);
+                    obj.transform.localPosition = localPos;
+
+                    SpriteRenderer spriteRenderer = obj.GetComponent<SpriteRenderer>();
+                    spriteRenderer.sortingOrder = -1;
+
+                    var r = random.Next(0, 3);
+                    if (r <= 1)
                     {
-                        GameObject floor = Instantiate(blockPrefab, chunkObject.transform);
-                        floor.transform.localPosition = localPos;
-                        floor.GetComponent<SpriteRenderer>().sprite = floorSprites[random.Next(0, floorSprites.Count)];
-                        floor.GetComponent<SpriteRenderer>().sortingOrder = -1;
-                        takenBlocks.Add(newPos);
+                        spriteRenderer.sprite = floorSprites[random.Next(0, floorSprites.Count)];
                     }
                     else
                     {
-                        GameObject decor = Instantiate(blockPrefab, chunkObject.transform);
-                        decor.transform.localPosition = localPos;
-                        decor.GetComponent<SpriteRenderer>().sprite = decorSprites[random.Next(0, decorSprites.Count)];
-                        decor.GetComponent<SpriteRenderer>().sortingOrder = -1;
-                        decor.AddComponent<Rigidbody2D>().isKinematic = true;
-                        decor.AddComponent<BoxCollider2D>().size*=0.5f;
-                        takenBlocks.Add(newPos);
+                        var r2 = random.Next(0, decorSprites.Count);
+                        spriteRenderer.sprite = decorSprites[r2];
+                        var rb = obj.AddComponent<Rigidbody2D>();
+                        
+                        rb.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
+
+                        var collider = obj.AddComponent<BoxCollider2D>();
+                        collider.size *= 0.5f;
+
+                        obj.AddComponent<EnemyHealth>().AssignDecor(decorParticles[r2]);
+                        obj.tag = "Environment";
                     }
+
+                    takenBlocks.Add(newPos);
                     break;
                 }
                 attempts++;
