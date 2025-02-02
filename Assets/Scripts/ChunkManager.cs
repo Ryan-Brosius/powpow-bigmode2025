@@ -23,6 +23,7 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private List<GameObject> decorParticles = new();
     [SerializeField] private List<Outpost> outposts = new();
     [SerializeField] private List<GameObject> turrets = new();
+    [SerializeField] private List<GameObject> letterPrefabs = new();
 
     public const int CHUNK_SIZE = 8;
     private const int LOAD_DISTANCE = 32;
@@ -299,6 +300,7 @@ public class ChunkManager : MonoBehaviour
             {
                 structure.AssignHut(allStructures); // Connect both huts and turrets
                 positions.Add(structure.transform.position);
+                structure.LetterToSpawn = letterPrefabs[((int)outpostType)];
             }
 
             var newConnector = Instantiate(campConnector, chunkObject.transform);

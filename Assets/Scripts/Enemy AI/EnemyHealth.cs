@@ -13,6 +13,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private List<EnemyHealth> connectedHuts = new();
     private Material defaultMat;
 
+    [HideInInspector] public GameObject LetterToSpawn;
+
     private void Start()
     {
         if (transform.childCount > 0)
@@ -136,6 +138,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
                 hut.connectedHuts.Remove(this);
             }
         }
+        if (connectedHuts.Count == 0 && LetterToSpawn != null) Instantiate(LetterToSpawn, transform.position, Quaternion.identity);
         connectedHuts.Clear();
 
         Destroy(gameObject);

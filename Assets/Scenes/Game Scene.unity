@@ -280,6 +280,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6386627146009679396, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -593,6 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 5549490551523996458, guid: 2e861910e468fe3498ef856e0693b797, type: 3}
+  campConnector: {fileID: 2029280150848843325, guid: 94836ab380d17bf47b86e1075fe5928a, type: 3}
   floorSprites:
   - {fileID: 791141438, guid: 4c0dbbf8fca03544e95016c954a68be2, type: 3}
   - {fileID: 1860063793, guid: 4c0dbbf8fca03544e95016c954a68be2, type: 3}
@@ -611,6 +616,10 @@ MonoBehaviour:
     Prefab: {fileID: 5071264843070558052, guid: 2b71452c0d1e62d499440e6ccc3c05ae, type: 3}
   turrets:
   - {fileID: 6125961112584308440, guid: a830cf8c4761199468587a85acf9f5a5, type: 3}
+  letterPrefabs:
+  - {fileID: 2077016751834194818, guid: 32ca54331107f1d4cbff4140066a01ff, type: 3}
+  - {fileID: 952848857904503517, guid: 06be67464ac5d97409a3668eb098f3b0, type: 3}
+  - {fileID: 6536241610755590889, guid: 757c99e432728624a9312a0a0aad0479, type: 3}
   OnOutpostsUpdated:
     m_PersistentCalls:
       m_Calls: []
@@ -680,6 +689,14 @@ PrefabInstance:
     - target: {fileID: 1488951125463561612, guid: fcc48ccfe30120d4ea7e863049702849, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2382452103342630360, guid: fcc48ccfe30120d4ea7e863049702849, type: 3}
+      propertyPath: pointsPerSecond
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2382452103342630360, guid: fcc48ccfe30120d4ea7e863049702849, type: 3}
+      propertyPath: maxEnemiesAtATime
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
