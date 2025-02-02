@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65962d43753b0744686d007ad29c1655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 2
+  LetterToSpawn: {fileID: 0}
 --- !u!114 &273767355743835194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +167,7 @@ MonoBehaviour:
   bulletCount: 3
   spreadAngle: 10
   distanceBetweenShots: 0
-  fireRateVariation: 0.1
+  fireRateVariation: 1
   extraShotsInARow: 0
   extraShotFireRate: 0.1
   canOnlyAttackWithinCamera: 1
