@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunStats: {fileID: 11400000, guid: fdb01c95a32abaf41b6ba96d475c364f, type: 2}
   firePoint: {fileID: 8866265718905193300}
+  baseBulletSpeed: 8
 --- !u!1 &2085424898115202813
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,6 +386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveStats: {fileID: 11400000, guid: 5f6fff7e8c7652144a680d4cd8cd8b11, type: 2}
+  playerHealthScript: {fileID: 283307062300830351}
   changeSpot:
     m_PersistentCalls:
       m_Calls: []
@@ -406,8 +408,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f8208c6b045db4e815fac496e0aac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 999
-  currentHealth: 999
+  maxHealth: 6
+  currentHealth: 6
+  iFrameDuration: 0.3
+  isImmune: 0
 --- !u!58 &4047929028347772287
 CircleCollider2D:
   m_ObjectHideFlags: 0

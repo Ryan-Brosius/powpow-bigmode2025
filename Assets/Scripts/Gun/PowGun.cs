@@ -9,6 +9,7 @@ public class PowGun : MonoBehaviour
 
     [Header("Fire Information")]
     [SerializeField] private Transform firePoint;
+    [SerializeField] private float baseBulletSpeed = 6f;
     private List<PowData> bullets;
     private bool isShooting = false;
 
@@ -73,6 +74,7 @@ public class PowGun : MonoBehaviour
         {
             bulletScript.Damage = powData.BulletDamage;
             bulletScript.Pierce = powData.BulletPierce;
+            bulletScript.speed = baseBulletSpeed + powData.BulletPierce;
         }
         if (powData.BulletPierce == 13) bulletScript.speed = 100f;
         if (powData.BulletDamage == 13)
