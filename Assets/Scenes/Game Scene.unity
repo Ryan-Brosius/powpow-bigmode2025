@@ -490,6 +490,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 283307062300830351, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
+      propertyPath: gameOverUI
+      value: 
+      objectReference: {fileID: 1469683486}
     - target: {fileID: 2194644985254418426, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -681,6 +685,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f652ba89fe2d7c746b681cde160b30d8, type: 3}
+--- !u!114 &1469683486 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2392307630826542509, guid: ff06a8d8d38211f448f426e53d0c0456, type: 3}
+  m_PrefabInstance: {fileID: 224717009}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02903651fcef94847a34e53841ee8a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1641400300
 GameObject:
   m_ObjectHideFlags: 0
