@@ -138,7 +138,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
                 hut.connectedHuts.Remove(this);
             }
         }
-        if (connectedHuts.Count == 0 && LetterToSpawn != null) Instantiate(LetterToSpawn, transform.position, Quaternion.identity);
+        if (LetterToSpawn != null) Instantiate(LetterToSpawn, transform.position, Quaternion.identity);
         connectedHuts.Clear();
 
         Destroy(gameObject);
