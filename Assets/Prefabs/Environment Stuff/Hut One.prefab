@@ -177,6 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  LetterToSpawn: {fileID: 0}
+  pointsOnDeath: 500
 --- !u!50 &5464364582131935551
 Rigidbody2D:
   serializedVersion: 4

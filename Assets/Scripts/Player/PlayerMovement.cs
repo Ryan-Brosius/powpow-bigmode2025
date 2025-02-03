@@ -198,7 +198,19 @@ public class PlayerMovement : MonoBehaviour
         if ((isFacingRight && moveInput.x < 0) || (!isFacingRight && moveInput.x > 0))
         {
             isFacingRight = !isFacingRight;
-            transform.Rotate(0f, 180f, 0f);
+            
+            if (gameObject.TryGetComponent<SpriteRenderer>(out SpriteRenderer sr))
+            {
+                if (isFacingRight)
+                {
+                    sr.flipX = false;
+                } else
+                {
+                    sr.flipX = true;
+                }
+            }
+
+            //transform.Rotate(0f, 180f, 0f);
         }
     }
 

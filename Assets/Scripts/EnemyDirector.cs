@@ -26,11 +26,28 @@ public class EnemyDirector : MonoBehaviour
     private float waveSpawnTries = 5;
     private float intensity = 1;
 
+    public int ExtraEnemyHealthTime { get; private set; }
+    private bool extraHealthIncreasing = false;
+
+    public static EnemyDirector Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        } else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         levelGen = ChunkManager.Instance;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         StartCoroutine(SpawnLoop());
+        ExtraEnemyHealthTime = 0;
     }
 
     void Update()
@@ -40,6 +57,11 @@ public class EnemyDirector : MonoBehaviour
         points += pointsPerSecond * Time.deltaTime * intensity;
         maxEnemiesAtATime = PowerGameState.Instance.PowString.Length + 3;
         maxStoredPoints = PowerGameState.Instance.PowString.Length * 10;
+
+        if (PowerGameState.Instance.PowString.Length >= 6 && !extraHealthIncreasing)
+        {
+            StartCoroutine(extraHealth());
+        }
 
         if (points > maxStoredPoints) points = maxStoredPoints;
     }
@@ -101,6 +123,10 @@ public class EnemyDirector : MonoBehaviour
                 Vector3 spawnVariance = (new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), 0f)).normalized;
 
                 var e = Instantiate(enemyReal.enemyPrefab, spawnPos + spawnVariance, Quaternion.identity);
+                if (e.TryGetComponent<EnemyHealth>(out EnemyHealth eh))
+                {
+                    eh.Health += ExtraEnemyHealthTime;
+                }
                 enemiesSpawned.Add(e);
                 points -= enemy.cost;
             }
@@ -212,5 +238,14 @@ public class EnemyDirector : MonoBehaviour
 
         return viewportPos.x >= 0 && viewportPos.x <= 1 &&
                viewportPos.y >= 0 && viewportPos.y <= 1;
+    }
+
+    private IEnumerator extraHealth()
+    {
+        while (true)
+        {
+            ExtraEnemyHealthTime++;
+            yield return new WaitForSeconds(60.0f);
+        }
     }
 }

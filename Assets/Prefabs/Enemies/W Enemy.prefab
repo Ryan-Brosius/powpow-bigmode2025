@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   LetterToSpawn: {fileID: 0}
+  pointsOnDeath: 100
 --- !u!114 &273767355743835194
 MonoBehaviour:
   m_ObjectHideFlags: 0

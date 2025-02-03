@@ -7,13 +7,19 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private int health = 10;
-    [HideInInspector] public int Health => health;
+    [HideInInspector] public int Health
+    {
+        get { return health; }
+        set { health = value; }
+    }
     private bool decor;
     private GameObject ps;
     private List<EnemyHealth> connectedHuts = new();
     private Material defaultMat;
 
     [HideInInspector] public GameObject LetterToSpawn;
+
+    [SerializeField] private int pointsOnDeath = 0;
 
     private void Start()
     {
@@ -128,6 +134,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
                 }
             }
         }
+
+        ScoreManager.Instance.AddScore(pointsOnDeath);
 
         GameManager.Instance.StartSlowMotionEffect();
 

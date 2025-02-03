@@ -47,7 +47,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        SceneLoad.Instance.ReloadCurrentScene();
         Destroy(gameObject);
-        //Do something here later
     }
 }

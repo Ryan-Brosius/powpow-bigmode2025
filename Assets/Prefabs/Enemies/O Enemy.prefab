@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af24ce782273f64d80d60d0916ee616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAutomatic: 1
   spritesList:
   - {fileID: 1341092693, guid: b87ba6796076f3945abd078d940b8e8b, type: 3}
   - {fileID: 535168799, guid: b87ba6796076f3945abd078d940b8e8b, type: 3}
@@ -170,6 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   LetterToSpawn: {fileID: 0}
+  pointsOnDeath: 100
 --- !u!114 &1859165393769433667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 087ed47b61141494fb3a57f6489f2df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteSwapper: {fileID: 0}
   bulletPrefab: {fileID: 1882283674531320664, guid: 50a875a59eab2664893cbc05816ea229, type: 3}
   fireRate: 0.2
   bulletCount: 1

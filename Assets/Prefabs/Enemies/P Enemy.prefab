@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   LetterToSpawn: {fileID: 0}
+  pointsOnDeath: 100
 --- !u!114 &572062542128671078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 087ed47b61141494fb3a57f6489f2df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteSwapper: {fileID: 0}
   bulletPrefab: {fileID: 1882283674531320664, guid: 7a2d0e8540b936e4ba7141c9b87d0b12, type: 3}
   fireRate: 1
   bulletCount: 1
