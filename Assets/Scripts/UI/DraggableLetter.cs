@@ -8,6 +8,7 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private Vector3 originalPosition;
     public DropZone originalDropZone;
     [SerializeField] char letterValue;
+    [SerializeField] LetterFloat letterFloatScript;
 
     public char LetterValue
     {
@@ -23,6 +24,7 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (letterFloatScript) letterFloatScript.makeFloat = false;
         originalPosition = rectTransform.position;
         /*
         originalPosition = rectTransform.position;
@@ -51,6 +53,15 @@ public class DraggableLetter : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (originalDropZone == null)
+        {
+            if (letterFloatScript)
+            {
+                letterFloatScript.startPosition = rectTransform.position;
+                letterFloatScript.makeFloat = true;
+            }
+        }
+            
         if (originalDropZone != null)
         {
             originalDropZone.ManualOnDrop(gameObject);
