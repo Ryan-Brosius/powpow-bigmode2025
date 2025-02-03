@@ -121,6 +121,14 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        if (name.Contains("Hut"))
+        {
+            //this is embarrasing
+            Instantiate(GameManager.Instance.CapturedHut, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+            return;
+        }
+
         if (decor)
         {
             if (ps != null)

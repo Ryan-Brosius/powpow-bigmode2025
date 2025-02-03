@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float slowMotionTimeScale = 0.25f;
     [SerializeField] private Material whiteMat;
     [HideInInspector] public Material WhiteMat => whiteMat;
+    [SerializeField] private GameObject capturedHut;
+    [HideInInspector] public GameObject CapturedHut => capturedHut;
     private float baseTimeScale = 1f;
 
     private static GameManager instance;
