@@ -12,11 +12,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     [SerializeField] string playerHurtSound = "PlayerHurt";
     [SerializeField] string playerDeathSound = "PlayerDeath";
+    [SerializeField] GameOverUI gameOverUI;
 
     private void Start()
     {
         // currentHealth = maxHealth;
         if (GameObject.Find("Health Case")) healthUI = GameObject.Find("Health Case").GetComponent<HealthCase>();
+        if (GameObject.Find("Game Over")) gameOverUI = GameObject.Find("Game Over").GetComponent<GameOverUI>();
 
         if (healthUI) healthUI.InitializeHealthUI(currentHealth);
     }
@@ -54,7 +56,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        SceneLoad.Instance.ReloadCurrentScene();
+        if (gameOverUI) gameOverUI.GameOver();
         Destroy(gameObject);
     }
 }

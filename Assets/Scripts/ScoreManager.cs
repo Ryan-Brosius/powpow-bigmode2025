@@ -11,7 +11,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreTMP;
 
     private int score = 0;
-    private int highScore = 0;
+    public int highScore = 0;
 
     private void Awake()
     {
