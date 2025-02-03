@@ -16,6 +16,7 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private GameObject campConnector; 
     [SerializeField] private List<Sprite> floorSprites = new();
     [SerializeField] private List<Sprite> decorSprites = new();
+    [SerializeField] private List<GameObject> decorDrops = new();
     [SerializeField] private List<GameObject> decorParticles = new();
     [SerializeField] private List<Outpost> outposts = new();
     [SerializeField] private List<GameObject> turrets = new();
@@ -256,6 +257,8 @@ public class ChunkManager : MonoBehaviour
                 }
             }
 
+            allStructures[random.Next(0, allStructures.Count-1)].LetterToSpawn = letterPrefabs[((int)outpostType)];
+
             // Generate turrets
             int turretCount = random.Next(1, 3);
             for (int i = 0; i < turretCount; i++)
@@ -301,7 +304,7 @@ public class ChunkManager : MonoBehaviour
                 {
                     structure.AssignHut(allStructures);
                     positions.Add(structure.transform.position);
-                    structure.LetterToSpawn = letterPrefabs[((int)outpostType)];
+                    //structure.LetterToSpawn = letterPrefabs[((int)outpostType)];
                 }
 
                 var newConnector = Instantiate(campConnector, chunkObject.transform);
@@ -341,6 +344,9 @@ public class ChunkManager : MonoBehaviour
                         var r2 = random.Next(0, decorSprites.Count);
                         spriteRenderer.sprite = decorSprites[r2];
                         var rb = obj.AddComponent<Rigidbody2D>();
+                        var dr = obj.AddComponent<DropOnDestroy>();
+                        dr.Chance = 5;
+                        dr.Drop = decorDrops[random.Next(decorDrops.Count - 1)];
 
                         rb.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
 
