@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d0e36bf91201f0244ad41f642ab7a8e3, type: 3}
+  m_Sprite: {fileID: -1656272428, guid: 946dfc52de983514a94aba56ae90a237, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,9 +98,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAutomatic: 1
-  spritesList: []
+  spritesList:
+  - {fileID: -1656272428, guid: 946dfc52de983514a94aba56ae90a237, type: 3}
+  - {fileID: -1487501723, guid: 946dfc52de983514a94aba56ae90a237, type: 3}
+  - {fileID: 2033179989, guid: 946dfc52de983514a94aba56ae90a237, type: 3}
   swapTimer: 0
-  swapDuration: 0.5
+  swapDuration: 0.2
 --- !u!1 &5071264843070558052
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +117,7 @@ GameObject:
   - component: {fileID: 8179026626605671404}
   - component: {fileID: 5464364582131935551}
   m_Layer: 0
-  m_Name: Hut One
+  m_Name: Hut_W
   m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

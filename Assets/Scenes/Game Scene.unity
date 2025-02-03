@@ -486,18 +486,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 27137508706511813, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 27137508706511813, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 6da78d00cc9efa84eb2843c3c0e9ffa9, type: 3}
-    - target: {fileID: 283307062300830351, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: gameOverUI
-      value: 
-      objectReference: {fileID: 1728177924}
     - target: {fileID: 2194644985254418426, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -538,61 +526,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4327787661670161303, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.613162
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327787661670161303, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.806581
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327787661670161303, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.613162
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327787661670161303, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327787661670161303, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5951193258479791436, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6016946602577464097, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655321034683310374, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.08494754
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655321034683310374, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.2666689
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655321034683310374, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.2666689
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655321034683310374, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.626
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655321034683310374, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.077
-      objectReference: {fileID: 0}
-    - target: {fileID: 8866265718905193300, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 8866265718905193300, guid: 487510fe87a453846b5fd34e0cc6e214, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.92
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -809,17 +745,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1728177924 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2392307630826542509, guid: ff06a8d8d38211f448f426e53d0c0456, type: 3}
-  m_PrefabInstance: {fileID: 224717009}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02903651fcef94847a34e53841ee8a2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &709076269065287295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -885,18 +810,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 71431850134671106, guid: 953e2a4a5aba00e4e9a5d4f7504eb92f, type: 3}
-      propertyPath: decorDrops.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 71431850134671106, guid: 953e2a4a5aba00e4e9a5d4f7504eb92f, type: 3}
-      propertyPath: decorDrops.Array.data[0]
-      value: 
-      objectReference: {fileID: 7892996231029528969, guid: b14482b73401b6641bc992484c0f5e3e, type: 3}
-    - target: {fileID: 71431850134671106, guid: 953e2a4a5aba00e4e9a5d4f7504eb92f, type: 3}
-      propertyPath: decorDrops.Array.data[1]
-      value: 
-      objectReference: {fileID: 8763175586893714304, guid: 5726b8e305c09ce40bce3339ee24a308, type: 3}
     - target: {fileID: 1942641302199629075, guid: 953e2a4a5aba00e4e9a5d4f7504eb92f, type: 3}
       propertyPath: m_Name
       value: LevelGen

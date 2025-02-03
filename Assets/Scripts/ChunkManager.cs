@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using System.Linq;
 
 public enum OutpostType
 {
@@ -236,13 +237,15 @@ public class ChunkManager : MonoBehaviour
                             0
                         );
 
-                        GameObject hut = Instantiate(outpostPrefab, chunkObject.transform);
+                        var hutPrefab = outposts.Where(o => o.Type.Equals(outpostType)).ToList()[0].Prefab;
+
+                        GameObject hut = Instantiate(hutPrefab, chunkObject.transform);
                         var hutHealth = hut.GetComponent<EnemyHealth>();
                         allStructures.Add(hutHealth);
 
                         hut.transform.localPosition = localPos;
                         OutpostsInChunk[chunkCoord].Add(hut);
-                        hut.transform.GetChild(0).GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
+                        //hut.transform.GetChild(0).GetComponent<SpriteRenderer>().color = OutpostToColor(outpostType);
 
                         outPostGridTaken.Add(gridPos);
                         int blockX = Mathf.FloorToInt(localPos.x);
