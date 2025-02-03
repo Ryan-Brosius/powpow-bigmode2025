@@ -9,6 +9,7 @@ public class LetterPickup : MonoBehaviour
     [SerializeField] float floatSpeed = 1f;
     [SerializeField] float rotationSpeed = 45f;
     PowWordUIManager powWordUI;
+    [SerializeField] string pickupSound = "LetterPickup";
 
     Vector3 startPosition;
 
@@ -30,6 +31,11 @@ public class LetterPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (pickupSound != null)
+        {
+            SoundManager.Instance.PlaySoundEffect(pickupSound);
+        }
+
         if (collision.tag == "Player")
         {
             if (letterValue == 'P' || letterValue == 'O' || letterValue == 'W')

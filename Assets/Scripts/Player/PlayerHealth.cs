@@ -10,6 +10,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] private float iFrameDuration = 0.3f;
     [SerializeField] bool isImmune = false;
 
+    [SerializeField] string playerHurtSound = "PlayerHurt";
+    [SerializeField] string playerDeathSound = "PlayerDeath";
+
     private void Start()
     {
         // currentHealth = maxHealth;
@@ -29,7 +32,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0)
         {
+            SoundManager.Instance.PlaySoundEffect(playerDeathSound);
             Die();  
+        } else
+        {
+            SoundManager.Instance.PlaySoundEffect(playerHurtSound);
         }
     }
 

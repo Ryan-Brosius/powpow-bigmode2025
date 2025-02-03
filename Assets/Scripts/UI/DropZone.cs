@@ -30,6 +30,8 @@ public class DropZone : MonoBehaviour, IDropHandler
             */
             if (draggedLetter.originalDropZone) draggedLetter.originalDropZone.removeLetter(draggedLetter.gameObject);
             AddLetter(draggedLetter.gameObject);
+
+            SoundManager.Instance.PlaySoundEffect("LetterChangeUI");
         }
     }
 

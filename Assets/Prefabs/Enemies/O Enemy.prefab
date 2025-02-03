@@ -172,6 +172,8 @@ MonoBehaviour:
   health: 1
   LetterToSpawn: {fileID: 0}
   pointsOnDeath: 100
+  hurtSound: EnemyHurt
+  deathSound: EnemyDeath
 --- !u!114 &1859165393769433667
 MonoBehaviour:
   m_ObjectHideFlags: 0

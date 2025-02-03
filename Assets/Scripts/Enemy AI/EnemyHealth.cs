@@ -20,6 +20,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     [HideInInspector] public GameObject LetterToSpawn;
 
     [SerializeField] private int pointsOnDeath = 0;
+    [SerializeField] private string hurtSound;
+    [SerializeField] private string deathSound;
 
     private void Start()
     {
@@ -95,6 +97,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         if (health <= 0)
         {
+            if (deathSound != null)
+            {
+                SoundManager.Instance.PlaySoundEffect(deathSound);
+            }
+
             Die();
             foreach (var connectedHut in connectedHuts.ToList())
             {
@@ -102,6 +109,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
                 {
                     connectedHut.Die();
                 }
+            }
+        } else
+        {
+            if (hurtSound != null)
+            {
+                SoundManager.Instance.PlaySoundEffect(hurtSound);
             }
         }
     }

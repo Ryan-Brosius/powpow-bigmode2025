@@ -179,6 +179,8 @@ MonoBehaviour:
   health: 10
   LetterToSpawn: {fileID: 0}
   pointsOnDeath: 500
+  hurtSound: 
+  deathSound: BuildingExplode
 --- !u!50 &5464364582131935551
 Rigidbody2D:
   serializedVersion: 4
