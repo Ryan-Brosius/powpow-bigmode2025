@@ -120,14 +120,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     }
 
     private void Die()
-    {
-        if (name.Contains("Hut"))
-        {
-            //this is embarrasing
-            Instantiate(GameManager.Instance.CapturedHut, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-            return;
-        }
+    {  
 
         if (decor)
         {
@@ -167,8 +160,16 @@ public class EnemyHealth : MonoBehaviour, IDamageable
                 hut.connectedHuts.Remove(this);
             }
         }
-        if (LetterToSpawn != null) Instantiate(LetterToSpawn, transform.position, Quaternion.identity);
+        if (LetterToSpawn != null) Instantiate(LetterToSpawn, transform.parent.position + new Vector3(4, 4), Quaternion.identity);
         connectedHuts.Clear();
+
+        if (name.Contains("Hut"))
+        {
+            //this is embarrasing
+            Instantiate(GameManager.Instance.CapturedHut, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+            return;
+        }
 
         Destroy(gameObject);
     }

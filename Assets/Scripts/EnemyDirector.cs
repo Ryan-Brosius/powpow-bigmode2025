@@ -61,6 +61,7 @@ public class EnemyDirector : MonoBehaviour
         if (PowerGameState.Instance.PowString.Length >= 6 && !extraHealthIncreasing)
         {
             StartCoroutine(extraHealth());
+            extraHealthIncreasing = true;
         }
 
         if (points > maxStoredPoints) points = maxStoredPoints;
