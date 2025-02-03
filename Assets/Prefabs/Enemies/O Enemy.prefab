@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1225584144839603460}
   - component: {fileID: 2023855895504906190}
+  - component: {fileID: 5126753495059986331}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 816a238fb774bfd4ba2a4ce8c53fcef1, type: 3}
+  m_Sprite: {fileID: 1341092693, guid: b87ba6796076f3945abd078d940b8e8b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,6 +85,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5126753495059986331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4702354193563507279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af24ce782273f64d80d60d0916ee616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritesList:
+  - {fileID: 1341092693, guid: b87ba6796076f3945abd078d940b8e8b, type: 3}
+  - {fileID: 535168799, guid: b87ba6796076f3945abd078d940b8e8b, type: 3}
+  - {fileID: 1588005427, guid: b87ba6796076f3945abd078d940b8e8b, type: 3}
+  - {fileID: -1798440877, guid: b87ba6796076f3945abd078d940b8e8b, type: 3}
+  swapTimer: 0
+  swapDuration: 0.15
 --- !u!1 &4961626569025260579
 GameObject:
   m_ObjectHideFlags: 0

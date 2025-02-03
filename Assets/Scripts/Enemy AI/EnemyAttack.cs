@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
+    [SerializeField] SpriteSwap spriteSwapper;
+
     [Header("Attack Stats")]
     [SerializeField] public GameObject bulletPrefab;
     [Range(0.2f, 5f)] public float fireRate;
@@ -22,6 +24,8 @@ public class EnemyAttack : MonoBehaviour
 
     public void PerformAttack(Transform firePoint, Transform target)
     {
+        if (spriteSwapper) spriteSwapper.StartCoroutine(spriteSwapper.ManualSpriteSwap());
+
         Vector3 direction = target.position - firePoint.position;
         if (canOnlyAttackWithinCamera && !IsTransformInView(Camera.main, transform)) return;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
