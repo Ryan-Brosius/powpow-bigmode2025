@@ -267,6 +267,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pixel Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4332556313749198341, guid: ff06a8d8d38211f448f426e53d0c0456, type: 3}
+      propertyPath: m_text
+      value: 000000
+      objectReference: {fileID: 0}
     - target: {fileID: 4548784703911619281, guid: ff06a8d8d38211f448f426e53d0c0456, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -282,6 +286,14 @@ PrefabInstance:
     - target: {fileID: 4548784703911619281, guid: ff06a8d8d38211f448f426e53d0c0456, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774426347036127704, guid: ff06a8d8d38211f448f426e53d0c0456, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6736115726108502475, guid: ff06a8d8d38211f448f426e53d0c0456, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7572168552582838680, guid: ff06a8d8d38211f448f426e53d0c0456, type: 3}
       propertyPath: m_AnchorMax.y
