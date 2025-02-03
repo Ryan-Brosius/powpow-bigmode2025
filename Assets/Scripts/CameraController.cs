@@ -79,7 +79,6 @@ public class CameraController : MonoBehaviour
         {
             currentShake.Kill();
         }
-
         currentShake = transform.DOShakePosition(shakeDuration, strength, shakeVibrato).SetUpdate(true);
     }
 
